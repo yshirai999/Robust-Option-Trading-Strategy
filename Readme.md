@@ -15,26 +15,16 @@
 
 ## Formulation for discipline saddle programming
 
-- The dsp extension of CVXPY is relatively strict in term of the target functions it accepts
+- To use the dsp extension of CVXPY we need to discretize the problem
 
-- Because of this, I think reformulating the problem as follows will help
+- Given a random variable $Y$, $M_0<M_1\in \mathbb{R}$ and $k\in \mathbb{N}$, define
+  - $y_j := M_0+\delta j, \ j\in\{0,1,...,2^k-1\}$
+  - $\delta & := \frac{M_1-M_0}{2^k-1}$
+  - $Y^k & := \sum_{j=1}^{2^k-1}y_j\mathbb{1}_{[y_j,y_{j+1})}(Y)$
 
-- Given a random variable $Y$, $M_0<M_1\in \mathbb{R}$ and $k\in \mathbb{N}$, define $$\begin{align*}
-y_j & := M_0+\delta j, \ j\in\{0,1,...,2^k-1\}\\
-\delta & := \frac{M_1-M_0}{2^k-1}\\
-Y^k & := \sum_{j=1}^{2^k-1}y_j\mathbb{1}_{[y_j,y_{j+1})}(Y)
-\end{align*}$$
+- Then, letting $p_Y$ denote the density of $Y$ under $\mathbb{P}$, $\mathbb{P}\left(Y^k=y_j\right)\approx \delta p_Y\left(y_j\right)$
 
-- Then, letting $p_Y$ denote the density of $Y$ under $\mathbb{P}$, $$\begin{align*}
-\mathbb{P}\left(Y^k=y_j\right)\approx \delta p_Y\left(y_j\right)
-\end{align*}$$
-
-- One is then led to consider the problem $$\begin{equation*}
-\begin{aligned}
-& \max_{\mathbf{w} \in \mathbb{R}^N} \min_{Z^k\in\mathcal{M}} \mathbb{E}[Z^k(w_1f_1(X^k_T)+...+w_Nf_N(X^k_T)-We^{X^k_T})] - \alpha(Z^k),\\
-& \text{s.t. } \mathbb{E}^{\mathbb{Q}}[w_1f_1(X_T)+...+w_Nf_N(X_T)] \leq W
-\end{aligned}
-\end{equation*}$$
+- One is then led to consider the problem $\max_{\mathbf{w} \in \mathbb{R}^N} \min_{Z^k\in\mathcal{M}} \mathbb{E}[Z^k(w_1f_1(X^k_T)+...+w_Nf_N(X^k_T)-We^{X^k_T})] - \alpha(Z^k)$, subject to the constraint$\mathbb{E}^{\mathbb{Q}}[w_1f_1(X_T)+...+w_Nf_N(X_T)] \leq W$
 
 - Next, assuming all strikes are traded for maturity $T$, we consider the problem, $$\begin{equation*}
 \max_{\mathbf{q}^T\mathbf{y}=W}
