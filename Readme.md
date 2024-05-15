@@ -52,6 +52,8 @@
 
 Below is a simple example that computes the solution to problem (2) in dimension $k = 2$
 
+```bash
+#!/bin/bash
 import dsp
 import cvxpy as cp
 import numpy as np
@@ -77,3 +79,4 @@ constraints = [q @ y == W, p @ z == 1, z >= 0, p @ cp.maximum(z-a,0) <= Phi]
 obj = dsp.MinimizeMaximize(f)
 prob = dsp.SaddlePointProblem(obj, constraints)
 prob.solve()  # solves the problem
+```
