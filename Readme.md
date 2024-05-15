@@ -6,7 +6,7 @@
   - $U(w_1f_1(X_T)+...+w_Nf_N(X_T)-We^{X_T})$
   - $\text{s.t. } \mathbb{E}^{\mathbb{Q}}[w_1f_1(X_T)+...+w_Nf_N(X_T)] \leq W$
 - $W$ denotes the available capital to be allocated and it is assumed that, denoting by $\Phi$ the Fenchel conjugate of a given distortion $\Psi$,
-  - $U:L^{\infty}\rightarrow \mathbb{R}$ is defined by 
+  - $U:L^{\infty}\rightarrow \mathbb{R}$ is defined by
     - $U(Y) := \min_{Z\in\mathcal{M}}\mathbb{E}[ZY]-\alpha(Z)$ for $Y\in L^{\infty}$,
     - $\mathcal{M} := \{Z\in L^1_+:\mathbb{E}[Z]=1,\mathbb{E}[(Z-a)^+]\leq \Phi(a), a > 0\}$
     - $\alpha(Z) := \mathbb{E}[\theta Z^{\alpha}+(1-\theta)Z^{-\beta}]$
@@ -31,14 +31,13 @@
 - Then, letting $p_Y$ denote the density of $Y$ under $\mathbb{P}$, $\mathbb{P}\left(Y^k=y_j\right)\approx \delta p_Y\left(y_j\right)$
 
 - One is then led to consider the problem
-$\max_{\mathbf{w} \in \mathbb{R}^N} \min_{Z^k\in\mathcal{M}} \mathbb{E}[Z^k(w_1f_1(X^k_T)+...+w_Nf_N(X^k_T)-We^{X^k_T})] - \alpha(Z^k)$,
-$\text{s.t. } \mathbb{E}^{\mathbb{Q}}[w_1f_1(X_T)+...+w_Nf_N(X_T)] \leq W$
+  - $\max_{\mathbf{w} \in \mathbb{R}^N} \min_{Z^k\in\mathcal{M}} \mathbb{E}[Z^k(w_1f_1(X^k_T)+...+w_Nf_N(X^k_T)-We^{X^k_T})] - \alpha(Z^k)$,
+  - $\text{s.t. } \mathbb{E}^{\mathbb{Q}}[w_1f_1(X_T)+...+w_Nf_N(X_T)] \leq W$
 
 - Next, assuming all strikes are traded for maturity $T$, we consider the problem,
-$\max_{\mathbf{q}^T\mathbf{y}=W}
-    \min_{\mathbf{z}\in\mathcal{M}} \mathbf{z}^TP_k(\mathbf{y}-We^{\mathbf{x}}) - \mathbf{p}^T(\theta \mathbf{z}^{\alpha}+(1-\theta)\mathbf{z}^{-\beta})$
-- In (2), we denote by
-  - $P_k$ denote the $2^{k}\times 2^{k}$ diagonal matrix with diagonal elements given by $\delta p_{X}(x_j)$, $j=1,...,2^k$,
+  - $\max_{\mathbf{q}^T\mathbf{y}=W} \min_{\mathbf{z}\in\mathcal{M}} \mathbf{z}^TP_k(\mathbf{y}-We^{\mathbf{x}}) - \mathbf{p}^T(\theta \mathbf{z}^{\alpha}+(1-\theta)\mathbf{z}^{-\beta})$
+- where:
+  - $P_k$ denotes the $2^{k}\times 2^{k}$ diagonal matrix with diagonal elements given by $\delta p_{X}(x_j)$, $j=1,...,2^k$,
   - $\mathbf{p}$ and $\mathbf{q}$ are the probability mass of $X^k_T$ under the statistical and the risk neutral measure respectively
   - $\mathbf{y}$, $\mathbf{x}$ and $\mathbf{z}$ are vectors in $\mathbb{R}^{2^k}$ composed of all possible values of $Y^k$, $X^k$ and $Z^k$
 - This formulation seems to fit the functions available in the DSP extension of CVXPY, as it is shown next
