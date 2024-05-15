@@ -1,0 +1,12 @@
+prefix=c:/Users/yoshi/OneDrive/Desktop/Research/Maximin/maximin/Library
+exec_prefix=c:/Users/yoshi/OneDrive/Desktop/Research/Maximin/maximin/Library
+libdir=c:/Users/yoshi/OneDrive/Desktop/Research/Maximin/maximin/Library/lib
+includedir=c:/Users/yoshi/OneDrive/Desktop/Research/Maximin/maximin/Library/include
+
+Name: libzmq
+Description: 0MQ c++ library
+Version: 4.3.5
+Libs: -L${libdir} -lzmq
+Libs.private: -lstdc++ 
+Requires.private: 
+Cflags: -I${includedir} 
