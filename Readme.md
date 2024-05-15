@@ -2,7 +2,9 @@
 
 - Can we outperform a benchmark by trading options on it?
 
-- This question may be answered by maximizing $U(w_1f_1(X_T)+...+w_Nf_N(X_T)-We^{X_T})$ subject to the constraints $\mathbb{E}^{\mathbb{Q}}[w_1f_1(X_T)+...+w_Nf_N(X_T)] \leq W$
+- This question may be answered by maximizing
+  - $U(w_1f_1(X_T)+...+w_Nf_N(X_T)-We^{X_T})$
+  - $\text{s.t. } \mathbb{E}^{\mathbb{Q}}[w_1f_1(X_T)+...+w_Nf_N(X_T)] \leq W$
 - $W$ denotes the available capital to be allocated and it is assumed that, denoting by $\Phi$ the Fenchel conjugate of a given distortion $\Psi$,
   - $U:L^{\infty}\rightarrow \mathbb{R}$ is defined by $U(Y) := \min_{Z\in\mathcal{M}}\mathbb{E}[ZY]-\alpha(Z)$ for $Y\in L^{\infty}$, where $\mathcal{M} := \{Z\in L^1_+:\mathbb{E}[Z]=1,\mathbb{E}[(Z-a)^+]\leq \Phi(a), a > 0\}$ and $\alpha(Z) := \mathbb{E}[\theta Z^{\alpha}+(1-\theta)Z^{-\beta}]$
   - $f_1,...,f_N$ are the respective payoff functions of $N$ contingent claims (e.g. options) each with a fixed maturity $T$ (here, 7 days) on the same underlying asset
