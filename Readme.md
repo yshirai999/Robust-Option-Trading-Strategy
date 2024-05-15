@@ -6,7 +6,10 @@
   - $U(w_1f_1(X_T)+...+w_Nf_N(X_T)-We^{X_T})$
   - $\text{s.t. } \mathbb{E}^{\mathbb{Q}}[w_1f_1(X_T)+...+w_Nf_N(X_T)] \leq W$
 - $W$ denotes the available capital to be allocated and it is assumed that, denoting by $\Phi$ the Fenchel conjugate of a given distortion $\Psi$,
-  - $U:L^{\infty}\rightarrow \mathbb{R}$ is defined by $U(Y) := \min_{Z\in\mathcal{M}}\mathbb{E}[ZY]-\alpha(Z)$ for $Y\in L^{\infty}$, where $\mathcal{M} := \{Z\in L^1_+:\mathbb{E}[Z]=1,\mathbb{E}[(Z-a)^+]\leq \Phi(a), a > 0\}$ and $\alpha(Z) := \mathbb{E}[\theta Z^{\alpha}+(1-\theta)Z^{-\beta}]$
+  - $U:L^{\infty}\rightarrow \mathbb{R}$ is defined by 
+    - $U(Y) := \min_{Z\in\mathcal{M}}\mathbb{E}[ZY]-\alpha(Z)$ for $Y\in L^{\infty}$,
+    - $\mathcal{M} := \{Z\in L^1_+:\mathbb{E}[Z]=1,\mathbb{E}[(Z-a)^+]\leq \Phi(a), a > 0\}$
+    - $\alpha(Z) := \mathbb{E}[\theta Z^{\alpha}+(1-\theta)Z^{-\beta}]$
   - $f_1,...,f_N$ are the respective payoff functions of $N$ contingent claims (e.g. options) each with a fixed maturity $T$ (here, 7 days) on the same underlying asset
   - The random variable $X_T$ is the log returns of the underlying asset, and its distribution is assumed to follow the bilateral gamma distribution with parameters $(b_p,c_p,b_n,c_n)$ and $(\tilde{b}_p,\tilde{c}_p,\tilde{b}_n,\tilde{c}_n)$ under the statistical probability $\mathbb{P}$ and the risk neutral probability $\mathbb{Q}$ respectively
   - The parameters $\theta,\alpha,\beta$ may be estimated based on performance of the resulting trading strategy
@@ -21,7 +24,7 @@
 
 - Given a random variable $Y$, real numbers $M_0\leq M_1$ and an positive integer $k$, define, for $j = 0,1,...,2^k-1$,
   - $y_j := M_0+\delta j$
-  - A_j := [y_j,y_{j+1}]
+  - $A_j := [y_j,y_{j+1}]$
   - $\delta := \frac{M_1-M_0}{2^k-1}$
   - $Y^k := \sum_{j}y_j\mathbb{1}_{A_j}(Y)$
 
