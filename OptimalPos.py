@@ -83,18 +83,18 @@ plt.show()
 
 # Constraint satisfied
 # print(q @ y.value)
-zz = z.value
-N = len(a)
-const = []
-for i in range(N): #range(len(a)):
-    const.append(p @ np.maximum(zz-a[i],0))
+# zz = z.value
+# N = len(a)
+# const = []
+# for i in range(N): #range(len(a)):
+#     const.append(p @ np.maximum(zz-a[i],0))
 
-const = np.array(const)
-fig = plt.figure()
-axes = fig.add_axes([0.1, 0.1, 0.75, 0.75])
-axes.set_xlim(a[0], a[-1])
-axes.set_ylim(min(const), max(Phi))
-axes.plot(a,const)
-axes.plot(a,Phi)
-# axes.plot(a,dist.Psi(a))
-plt.show()
+# const = np.array(const)
+# fig = plt.figure()
+# axes = fig.add_axes([0.1, 0.1, 0.75, 0.75])
+# axes.set_xlim(a[0], a[-1])
+# axes.set_ylim(min(const), max(Phi))
+# axes.plot(a,const)
+# axes.plot(a,Phi)
+# # axes.plot(a,dist.Psi(a))
+# plt.show()
