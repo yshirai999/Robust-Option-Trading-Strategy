@@ -24,7 +24,9 @@
 
 - Then, letting $p_Y$ denote the density of $Y$ under $\mathbb{P}$, $\mathbb{P}\left(Y^k=y_j\right)\approx \delta p_Y\left(y_j\right)$
 
-- One is then led to consider the problem $\max_{\mathbf{w} \in \mathbb{R}^N} \min_{Z^k\in\mathcal{M}} \mathbb{E}[Z^k(w_1f_1(X^k_T)+...+w_Nf_N(X^k_T)-We^{X^k_T})] - \alpha(Z^k)$, subject to the constraint $\mathbb{E}^{\mathbb{Q}}[w_1f_1(X_T)+...+w_Nf_N(X_T)] \leq W$
+- One is then led to consider the problem 
+$\max_{\mathbf{w} \in \mathbb{R}^N} \min_{Z^k\in\mathcal{M}} \mathbb{E}[Z^k(w_1f_1(X^k_T)+...+w_Nf_N(X^k_T)-We^{X^k_T})] - \alpha(Z^k)$,
+$\text{s.t. } \mathbb{E}^{\mathbb{Q}}[w_1f_1(X_T)+...+w_Nf_N(X_T)] \leq W$
 
 - Next, assuming all strikes are traded for maturity $T$, we consider the problem,
 $\max_{\mathbf{q}^T\mathbf{y}=W}
