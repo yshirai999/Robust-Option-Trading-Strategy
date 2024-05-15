@@ -53,7 +53,6 @@
 Below is a simple example that computes the solution to problem (2) in dimension $k = 2$
 
 ```bash
-#!/bin/bash
 import dsp
 import cvxpy as cp
 import numpy as np
