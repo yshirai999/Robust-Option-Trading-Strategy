@@ -17,10 +17,10 @@
 
 - To use the dsp extension of CVXPY we need to discretize the problem
 
-- Given a random variable $Y$, real numbers $M_0<M_1$ and an positive integer $k$, define
-$y_j := M_0+\delta j, \ j\in\{0,1,...,2^k-1\}$
-$\delta & := \frac{M_1-M_0}{2^k-1}$
-$Y^k & := \sum_{j=1}^{2^k-1}y_j\mathbb{1}_{[y_j,y_{j+1})}(Y)$
+- Given a random variable $Y$, real numbers $M_0<M_1$ and an positive integer $k$, define, for $j = 0,1,...,2^k-1$,
+$y_j := M_0+\delta j$
+$\delta := \frac{M_1-M_0}{2^k-1}$
+$Y^k := \sum_{j=1}^{2^k-1}y_j\mathbb{1}_{[y_j,y_{j+1})}(Y)$
 
 - Then, letting $p_Y$ denote the density of $Y$ under $\mathbb{P}$, $\mathbb{P}\left(Y^k=y_j\right)\approx \delta p_Y\left(y_j\right)$
 
