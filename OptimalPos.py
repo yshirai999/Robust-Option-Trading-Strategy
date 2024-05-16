@@ -5,36 +5,29 @@ from Models import BG
 from Distortions import minmaxvar as mmv
 import matplotlib.pyplot as plt
 
-params = [0.04,10/52,1,5/52,0.04,10/52,1,5/52]
+params = [0.04,10/52,1,5/52,0.02,10/52,1.5,5/52]
 
 k = 8
 N = 80
 a = np.linspace(0.5,2,N)
 W = 1
-M = [-1,1]
+M = [-0.5,0.5]
 model = BG(k,M,params)
 p = model.p
 q = model.q
 x = model.y
 
-# fig = plt.figure()
-# axes = fig.add_axes([0.1, 0.1, 1, 1])
-# axes.set_xlim(M[0], M[1])
-# axes.set_ylim(0, max([max(p),max(q)]))
-# axes.plot(x, p)
-# axes.plot(x, q)
-# plt.show()
+fig = plt.figure()
+axes = fig.add_axes([0.1, 0.1, 1, 1])
+axes.set_xlim(M[0], M[1])
+axes.set_ylim(0, max([max(p),max(q)]))
+axes.plot(x, p)
+axes.plot(x, q)
+plt.show()
 
 lam = 0.25
 dist = mmv(lam)
 Phi = dist.Phi(a)
-# fig = plt.figure()
-# axes = fig.add_axes([0.1, 0.1, 1, 1])
-# axes.set_xlim(a[0]-0.5, a[-1]+0.5)
-# axes.set_ylim(0, max(Phi))
-# axes.plot(a, Phi)
-# # axes.plot(a,dist.Psi(a))
-# plt.show()
 
 theta = 0.75
 alpha = 1.25
@@ -78,6 +71,7 @@ fig = plt.figure()
 axes = fig.add_axes([0.1, 0.1, 0.75, 0.75])
 axes.set_xlim(np.log(W)+M[0], np.log(W)+M[-1])
 axes.set_ylim(min(y.value), max(y.value))
+#axes.plot(x,y.value-W*np.exp(x)
 axes.plot(x,y.value)
 axes.plot(x,W*np.exp(x))
 plt.show()
