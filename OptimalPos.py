@@ -76,10 +76,10 @@ print(prob.value)
 
 fig = plt.figure()
 axes = fig.add_axes([0.1, 0.1, 0.75, 0.75])
-axes.set_xlim(W*np.exp(M[0]), W*np.exp(M[-1]))
+axes.set_xlim(np.log(W)+M[0], np.log(W)+M[-1])
 axes.set_ylim(min(y.value), max(y.value))
-axes.plot(W*np.exp(x),y.value)
-# axes.plot(a,dist.Psi(a))
+axes.plot(x,y.value)
+axes.plot(x,W*np.exp(x))
 plt.show()
 
 # Constraint satisfied
