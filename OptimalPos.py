@@ -8,6 +8,8 @@ import matplotlib.pyplot as plt
 params = [0.04,10/52,1,5/52,0.04,10/52,1,5/52]
 
 k = 8
+N = 80
+a = np.linspace(0.5,2,N)
 W = 1
 M = [-1,1]
 model = BG(k,M,params)
@@ -23,8 +25,7 @@ x = model.y
 # axes.plot(x, q)
 # plt.show()
 
-lam = 5
-a = np.linspace(0.1,5,100)
+lam = 0.25
 dist = mmv(lam)
 Phi = dist.Phi(a)
 # fig = plt.figure()
@@ -47,7 +48,7 @@ f = dsp.inner(z, P @ (y - cp.multiply(W,cp.exp(x))))
 rho = p @ (cp.multiply(theta, cp.power(z,alpha))+cp.multiply(1-theta,cp.power(z,-beta)))
 obj = dsp.MinimizeMaximize(rho-f)
 constraints = [q @ y == W, p @ z == 1, z >= 0]
-for i in range(89): #range(len(a)):
+for i in range(N): #range(len(a)):
     constraints.append(p @ cp.maximum(z-a[i],0) <= Phi[i])
 
 '''
@@ -75,26 +76,26 @@ print(prob.value)
 
 fig = plt.figure()
 axes = fig.add_axes([0.1, 0.1, 0.75, 0.75])
-axes.set_xlim(np.log(W)+M[0], np.log(W) + M[-1])
+axes.set_xlim(W*np.exp(M[0]), W*np.exp(M[-1]))
 axes.set_ylim(min(y.value), max(y.value))
-axes.plot(x,y.value)
+axes.plot(W*np.exp(x),y.value)
 # axes.plot(a,dist.Psi(a))
 plt.show()
 
 # Constraint satisfied
-# print(q @ y.value)
-# zz = z.value
-# N = len(a)
-# const = []
-# for i in range(N): #range(len(a)):
-#     const.append(p @ np.maximum(zz-a[i],0))
+print(q @ y.value)
+zz = z.value
+N = len(a)
+const = []
+for i in range(N): #range(len(a)):
+    const.append(p @ np.maximum(zz-a[i],0))
 
-# const = np.array(const)
-# fig = plt.figure()
-# axes = fig.add_axes([0.1, 0.1, 0.75, 0.75])
-# axes.set_xlim(a[0], a[-1])
-# axes.set_ylim(min(const), max(Phi))
-# axes.plot(a,const)
-# axes.plot(a,Phi)
-# # axes.plot(a,dist.Psi(a))
-# plt.show()
+const = np.array(const)
+fig = plt.figure()
+axes = fig.add_axes([0.1, 0.1, 0.75, 0.75])
+axes.set_xlim(a[0], a[-1])
+axes.set_ylim(min(const), max(Phi))
+axes.plot(a,const)
+axes.plot(a,Phi)
+# axes.plot(a,dist.Psi(a))
+plt.show()
