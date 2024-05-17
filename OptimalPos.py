@@ -25,7 +25,7 @@ axes.plot(x, p)
 axes.plot(x, q)
 plt.show()
 
-lam = 0.25
+lam = 0.05
 dist = mmv(lam)
 Phi = dist.Phi(a)
 
