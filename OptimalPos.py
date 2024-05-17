@@ -7,8 +7,10 @@ import matplotlib.pyplot as plt
 
 params = [0.04,10/52,1,5/52,0.02,10/52,1.5,5/52]
 
+benchmark = False
+
 k = 8
-N = 80
+N = 200
 a = np.linspace(0.5,2,N)
 W = 1
 M = [-0.5,0.5]
@@ -25,7 +27,7 @@ axes.plot(x, p)
 axes.plot(x, q)
 plt.show()
 
-lam = 0.5
+lam = 0.25
 dist = mmv(lam)
 Phi = dist.Phi(a)
 
@@ -37,12 +39,22 @@ P = np.diag(p)
 y = cp.Variable(2**k)
 z = cp.Variable(2**k)
 
-f = dsp.inner(z, P @ (y - cp.multiply(W,cp.exp(x))))
-rho = p @ (cp.multiply(theta, cp.power(z,alpha))+cp.multiply(1-theta,cp.power(z,-beta)))
-obj = dsp.MinimizeMaximize(rho-f)
-constraints = [q @ y == W, p @ z == 1, z >= 0]
-for i in range(N): #range(len(a)):
-    constraints.append(p @ cp.maximum(z-a[i],0) <= Phi[i])
+if benchmark:
+    f = dsp.inner(z, P @ (y - cp.multiply(W,cp.exp(x))))
+    rho = p @ (cp.multiply(theta, cp.power(z,alpha))+cp.multiply(1-theta,cp.power(z,-beta)))
+    obj = dsp.MinimizeMaximize(rho-f)
+    constraints = [q @ y == W, p @ z == 1, z >= 0]
+    for i in range(N): #range(len(a)):
+        constraints.append(p @ cp.maximum(z-a[i],0) <= Phi[i])
+else:
+    f = dsp.inner(z, P @ (y - q @ y))
+    rho = p @ (cp.multiply(theta, cp.power(z,alpha))+cp.multiply(1-theta,cp.power(z,-beta)))
+    obj = dsp.MinimizeMaximize(rho-f)
+    constraints = [p @ z == 1, z >= 0]
+    for i in range(N): #range(len(a)):
+        constraints.append(p @ cp.maximum(z-a[i],0) <= Phi[i])
+
+
 
 '''
 Note: too many constraints generate some problems in CVXPY, see https://github.com/cvxpy/cvxpy/issues/826
@@ -73,8 +85,14 @@ axes.set_xlim(np.log(W)+M[0], np.log(W)+M[-1])
 axes.set_ylim(min(y.value), max(y.value))
 #axes.plot(x,y.value-W*np.exp(x)
 axes.plot(x,y.value)
-axes.plot(x,W*np.exp(x))
-plt.show()
+if benchmark:
+    axes.plot(x,W*np.exp(x))
+    plt.savefig('PosBench.png')
+    plt.show()
+else:
+    plt.savefig('Pos.png')
+    plt.show()
+    
 
 # Constraint satisfied
 print(q @ y.value)
