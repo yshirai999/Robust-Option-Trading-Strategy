@@ -54,10 +54,10 @@ print(np.shape(f))
 # obj = dsp.MinimizeMaximize(rho-rhox-rhoy-f)
 obj = dsp.MinimizeMaximize(f+rho)
 constraints = [p @ z == 1, z >= 0]
-# for i in range(N): #range(len(a)):
-#     constraints.append(p @ cp.maximum(z-a[i],0) <= Phi[i])
-#     constraints.append(p @ cp.maximum(zx-a[i],0) <= Phi[i])
-#     constraints.append(p @ cp.maximum(zy-a[i],0) <= Phi[i])
+for i in range(N): #range(len(a)):
+    constraints.append(p @ cp.maximum(z-a[i],0) <= Phi[i])
+    # constraints.append(p @ cp.maximum(zx-a[i],0) <= Phi[i])
+    # constraints.append(p @ cp.maximum(zy-a[i],0) <= Phi[i])
 
 prob = dsp.SaddlePointProblem(obj, constraints)
 prob.solve()  # solves the problem

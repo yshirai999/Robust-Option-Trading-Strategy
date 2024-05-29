@@ -19,13 +19,13 @@ p = model.p
 q = model.q
 x = model.y
 
-fig = plt.figure()
-axes = fig.add_axes([0.1, 0.1, 1, 1])
-axes.set_xlim(M[0], M[1])
-axes.set_ylim(0, max([max(p),max(q)]))
-axes.plot(x, p)
-axes.plot(x, q)
-plt.show()
+# fig = plt.figure()
+# axes = fig.add_axes([0.1, 0.1, 1, 1])
+# axes.set_xlim(M[0], M[1])
+# axes.set_ylim(0, max([max(p),max(q)]))
+# axes.plot(x, p)
+# axes.plot(x, q)
+# plt.show()
 
 lam = 0.25
 dist = mmv(lam)
@@ -42,14 +42,14 @@ z = cp.Variable(2**k)
 if benchmark:
     f = dsp.inner(z, P @ (y - cp.multiply(W,cp.exp(x))))
     rho = p @ (cp.multiply(theta, cp.power(z,alpha))+cp.multiply(1-theta,cp.power(z,-beta)))
-    obj = dsp.MinimizeMaximize(rho-f)
+    obj = dsp.MinimizeMaximize(rho+f)
     constraints = [q @ y == W, p @ z == 1, z >= 0]
     for i in range(N): #range(len(a)):
         constraints.append(p @ cp.maximum(z-a[i],0) <= Phi[i])
 else:
     f = dsp.inner(z, P @ (y - q @ y))
     rho = p @ (cp.multiply(theta, cp.power(z,alpha))+cp.multiply(1-theta,cp.power(z,-beta)))
-    obj = dsp.MinimizeMaximize(rho-f)
+    obj = dsp.MinimizeMaximize(rho+f)
     constraints = [p @ z == 1, z >= 0]
     for i in range(N): #range(len(a)):
         constraints.append(p @ cp.maximum(z-a[i],0) <= Phi[i])
@@ -80,8 +80,9 @@ print(prob.value)
 
 fig = plt.figure()
 axes = fig.add_axes([0.1, 0.1, 0.75, 0.75])
+M = [-0.3,0.3]
 axes.set_xlim(np.log(W)+M[0], np.log(W)+M[-1])
-axes.set_ylim(min(y.value), max(y.value))
+#axes.set_ylim(min(y.value), max(y.value))
 #axes.plot(x,y.value-W*np.exp(x)
 axes.plot(x,y.value)
 if benchmark:
