@@ -5,3 +5,5 @@ import matlab.engine
 eng = matlab.engine.start_matlab()
 eng.BGDataReader(nargout = 0)
 mat = loadmat('bgset512.mat')
+
+BG = mat['A']
