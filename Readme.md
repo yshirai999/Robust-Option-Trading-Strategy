@@ -79,3 +79,9 @@ obj = dsp.MinimizeMaximize(f)
 prob = dsp.SaddlePointProblem(obj, constraints)
 prob.solve()  # solves the problem
 ```
+
+## Note on the Conda Environment
+
+- Some code is done in MATLAB, which is integrated here using the matlab API
+
+- As this only supports a previous version of Python, do not forget to match your vscode python version with that of the conda environment (v3.10.14)
