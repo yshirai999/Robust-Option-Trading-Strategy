@@ -29,6 +29,8 @@ dist = mmv(lam)
 Phi = dist.Phi(a)
 W = 1
 benchmark = False
+alpha = 0.25
+beta = alpha
 
 theta = 0.15
 P = np.diag(p)
