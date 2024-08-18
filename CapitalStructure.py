@@ -27,6 +27,8 @@ x = model.y
 lam = 0.25
 dist = mmv(lam)
 Phi = dist.Phi(a)
+W = 1
+benchmark = False
 
 theta = 0.15
 P = np.diag(p)
