@@ -72,3 +72,5 @@ def OptimalPos(p,q,x,k,a,Phi,theta,alpha,beta,W):
     plt.show()
 
     return y.value
+
+y = OptimalPos(p,q,x,k,a,Phi,theta,alpha,beta,W)
