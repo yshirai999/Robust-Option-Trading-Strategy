@@ -1,4 +1,4 @@
-# Optimal derivative positioning on a single stock
+# Optimal derivative positioning for a single stock
 
 - Can we outperform a benchmark by trading options on it?
 
