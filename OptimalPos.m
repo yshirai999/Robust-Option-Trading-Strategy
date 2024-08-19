@@ -92,10 +92,7 @@ x = py.numpy.array(y.');
 a = py.numpy.array(a.');
 Phi = py.numpy.array(Phi.');
 
-%res = pyrunfile("OptimalPos_fun.py","y",p=p,q=q,x=x,k=k,a=a,Phi=Phi,theta=theta,alpha=alpha,beta=beta,W=W);
-
-res = pyrunfile("OptimalPos_fun.py","z",x=3,y=2);
-res
+res = pyrunfile("OptimalPos_fun.py","y",p=p,q=q,x=x,k=k,a=a,Phi=Phi,theta=theta,alpha=alpha,beta=beta,W=W);
 
 %% Visualization
 
