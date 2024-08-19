@@ -80,7 +80,7 @@ beta = 0.25;
 
 %% Optimization
 
-% load python libraries
+% load python.exe
 
 pyenv('Version',...
     'C:\Users\yoshi\OneDrive\Desktop\Research\OptimalDerivativePos\Maximin\maximin2\python.exe',...
