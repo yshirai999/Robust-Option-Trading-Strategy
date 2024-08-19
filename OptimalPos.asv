@@ -92,34 +92,43 @@ x = py.numpy.array(y.');
 a = py.numpy.array(a.');
 Phi = py.numpy.array(Phi.');
 
-res = pyrunfile("OptimalPos_fun.py","y",p=p,q=q,x=x,k=k,a=a,Phi=Phi,theta=theta,alpha=alpha,beta=beta,W=W);
+res = pyrunfile("OptimalPos_fun.py","z",p=p,q=q,x=x,k=k,a=a,Phi=Phi,theta=theta,alpha=alpha,beta=beta,W=W);
 
 %% Visualization
 
-% Optimal position
-figure()
-M = [-0.3,0.3];
-xlim = ([log(W)+M(1), log(W)+M(2)]);
-plot(x,res)
+figure
+axes = fig.add_axes([0.1, 0.1, 0.75, 0.75])
+M = [-0.3,0.3]
+axes.set_xlim(np.log(W)+M[0], np.log(W)+M[-1])
+#axes.set_ylim(min(y.value), max(y.value))
+#axes.plot(x,y.value-W*np.exp(x)
+axes.plot(x,y.value)
+if benchmark:
+    axes.plot(x,W*np.exp(x))
+    plt.savefig('PosBench.png')
+    plt.show()
+else:
+    plt.savefig('Pos.png')
+    plt.show()
+    
 
-fprintf('Cost of implementing strategy y is %d', q' * res)
+# Constraint satisfied
+print(q @ y.value)
+zz = z.value
+N = len(a)
+const = []
+for i in range(N): #range(len(a)):
+    const.append(p @ np.maximum(zz-a[i],0))
 
-% Constraints
-% zz = z.value
-% N = len(a)
-% const = []
-% for i in range(N): #range(len(a)):
-%     const.append(p @ np.maximum(zz-a[i],0))
-% 
-% const = np.array(const)
-% fig = plt.figure()
-% axes = fig.add_axes([0.1, 0.1, 0.75, 0.75])
-% axes.set_xlim(a[0], a[-1])
-% axes.set_ylim(min(const), max(Phi))
-% axes.plot(a,const)
-% axes.plot(a,Phi)
-% # axes.plot(a,dist.Psi(a))
-% plt.show()
+const = np.array(const)
+fig = plt.figure()
+axes = fig.add_axes([0.1, 0.1, 0.75, 0.75])
+axes.set_xlim(a[0], a[-1])
+axes.set_ylim(min(const), max(Phi))
+axes.plot(a,const)
+axes.plot(a,Phi)
+# axes.plot(a,dist.Psi(a))
+plt.show()
 
 
 %% Routines
