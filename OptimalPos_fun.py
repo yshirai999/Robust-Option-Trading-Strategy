@@ -19,7 +19,7 @@ def OptimalPos(p,q,x,k,a,Phi,theta,alpha,beta,W,N):
     M = [-0.5,0.5]
     model = BG(k,M,params)
     #p = model.p
-    q = model.q
+    #q = model.q
     x = model.y
 
     # # fig = plt.figure()
