@@ -10,17 +10,17 @@ def OptimalPos(p,q,x,k,a,Phi,theta,alpha,beta,W,N):
     N = int(N)
     k = int(k)
 
-    params = [0.04,10/52,1,5/52,0.02,10/52,1.5,5/52]
+    #params = [0.04,10/52,1,5/52,0.02,10/52,1.5,5/52]
 
-    k = 8
-    N = 50
+    #k = 8
+    #N = 50
     a = np.linspace(0.5,2,N)
-    W = 1
+    #W = 1
     M = [-0.5,0.5]
-    model = BG(k,M,params)
+    #model = BG(k,M,params)
     #p = model.p
     #q = model.q
-    x = model.y
+    #x = model.y
 
     # # fig = plt.figure()
     # # axes = fig.add_axes([0.1, 0.1, 1, 1])
