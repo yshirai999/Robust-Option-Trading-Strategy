@@ -104,6 +104,11 @@ figure()
 M = [-0.3,0.3];
 xlim = ([log(W)+M(1), log(W)+M(2)]);
 plot(x,res)
+fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\OptimalDerivativePos\Figures');
+str=strcat('OptimalSolution_SPY');
+fname=str;
+saveas(gcf, fullfile(fpath, fname), 'epsc');
+
 
 fprintf('Cost of implementing strategy y is %d', q * res')
 
