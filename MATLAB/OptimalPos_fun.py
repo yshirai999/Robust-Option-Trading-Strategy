@@ -74,4 +74,4 @@ def OptimalPos(p,q,x,k,a,Phi,theta,alpha,beta,W,N):
 
     return y.value
 
-z = OptimalPos(p,q,x,k,a,Phi,theta,alpha,beta,W,N)
+z = OptimalPos(p = np.ndarray,q=np.ndarray,x=np.ndarray,k=int,a=np.ndarray,Phi=np.ndarray,theta=float,alpha=float,beta=float,W=float,N=int)
