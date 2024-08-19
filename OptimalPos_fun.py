@@ -23,7 +23,6 @@ def OptimalPos(p,q,x,k,a,Phi,theta,alpha,beta,W,N):
         constraints.append(p @ cp.maximum(z-a[i],0) <= Phi[i])
 
 
-
     '''
     Note: too many constraints generate some problems in CVXPY, see https://github.com/cvxpy/cvxpy/issues/826
     Because of this I have here limited the number of constraints. It can be seen that the solution z does satisfy the constraint.
