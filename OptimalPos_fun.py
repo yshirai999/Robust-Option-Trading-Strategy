@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 
 def OptimalPos(p,q,x,k,a,Phi,theta,alpha,beta,W,N):
     N = int(N)
+    k = int(k)
     P = np.diag(p)
 
     y = cp.Variable(2**k)
