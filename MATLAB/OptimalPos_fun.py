@@ -3,9 +3,6 @@ import cvxpy as cp
 import numpy as np
 import matplotlib.pyplot as plt
 
-from Models import BG
-from Distortions import minmaxvar as mmv
-
 def OptimalPos(p,q,x,k,a,Phi,theta,alpha,beta,W,N):
     N = int(N)
     k = int(k)
