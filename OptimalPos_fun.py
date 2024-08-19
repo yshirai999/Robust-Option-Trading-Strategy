@@ -73,4 +73,4 @@ def OptimalPos(p,q,x,k,a,Phi,theta,alpha,beta,W,N):
 
     return y.value
 
-z = OptimalPos(p,q,x,k,a,Phi,theta,alpha,beta,W)
+z = OptimalPos(p,q,x,k,a,Phi,theta,alpha,beta,W,N)
