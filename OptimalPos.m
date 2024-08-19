@@ -1,5 +1,6 @@
 clear
 clc
+close all
 
 %% Parameters
 
@@ -64,7 +65,7 @@ W(im) = exp(-0.5*xm) .* (xm.^(mu+0.5)) .* kummerU(mu-lam+0.5, 1+2*mu, xm);
 q(ip) = ( (bptil)^(-cptil) ) * ( (bntil)^(-cntil) ) * ( (yp).^(0.5*(cptil+cntil)-1) ) .* exp(-0.5*yp) .* W(ip) / gammap;
 q(im) = ( (bptil)^(-cptil) ) * ( (bntil)^(-cntil) ) * ( (ym).^(0.5*(cptil+cntil)-1) ) .* exp(-0.5*ym) .* W(im) / gamman;
 q = q * delta / ( b^(0.5*(cptil+cntil)) );
-q = q/sum(p);
+q = q/sum(q);
 
 % Constraints
 N = 50;
@@ -94,6 +95,8 @@ Phi = py.numpy.array(Phi.');
 
 res = pyrunfile("OptimalPos_fun.py","z",p=p,q=q,x=x,k=k,a=a,Phi=Phi,theta=theta,alpha=alpha,beta=beta,W=W,N=N);
 
+res = double(res);
+q = double(q);
 %% Visualization
 
 % Optimal position
@@ -102,7 +105,7 @@ M = [-0.3,0.3];
 xlim = ([log(W)+M(1), log(W)+M(2)]);
 plot(x,res)
 
-fprintf('Cost of implementing strategy y is %d', q' * res)
+fprintf('Cost of implementing strategy y is %d', q * res')
 
 % Constraints
 % zz = z.value
