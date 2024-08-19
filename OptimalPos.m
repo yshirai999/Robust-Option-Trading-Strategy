@@ -74,7 +74,7 @@ lam = 0.25;
 Phi = MMV_Phi(a,lam);
 
 % Rebate
-theta = 0.25;
+theta = 0.75;
 alpha = 1.25;
 beta = 0.25;
 
