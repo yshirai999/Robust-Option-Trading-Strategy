@@ -70,3 +70,5 @@ def OptimalPos(p,q,x,k,a,Phi,theta,alpha,beta,W):
     axes.plot(a,Phi)
     # axes.plot(a,dist.Psi(a))
     plt.show()
+
+    return y.value

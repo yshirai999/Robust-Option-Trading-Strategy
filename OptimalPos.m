@@ -83,29 +83,19 @@ P = diag(p);
 pyenv('Version',...
     'C:\Users\yoshi\OneDrive\Desktop\Research\OptimalDerivativePos\Maximin\maximin2\python.exe',...
     'ExecutionMode','OutOfProcess');
-py.importlib.import_module('dsp');
-py.importlib.import_module('cvxpy');
 py.importlib.import_module('numpy');
-
-l_mat = rand(2,2);
-l_py = py.numpy.random.random([int64(2), int64(2)]);
-
-npA = py.numpy.array(l_mat(:).');
 
 p = py.numpy.array(p.');
 q = py.numpy.array(q.');
 x = py.numpy.array(y.');
+a = py.numpy.array(a.');
+Phi = py.numpy.array(Phi.');
 
-P = py.numpy.diag(p);
+res = pyrunfile("OptimalPos_fun.py","z",p=p,q=q,x=x,k=k,a=a,Phi=Phi,theta=theta,alpha=alpha,beta=beta,W=W);
 
-pyrun("f = dsp.inner(z, P @ (y - q @ y))", " f_mat");
-% rho = p @ (cp.multiply(theta, cp.power(z,alpha))+cp.multiply(1-theta,cp.power(z,-beta)))
-% obj = dsp.MinimizeMaximize(rho+f)
-% constraints = [p @ z == 1, z >= 0]
-% for i in range(N): #range(len(a)):
-%     constraints.append(p @ cp.maximum(z-a[i],0) <= Phi[i])
 
-%pyrun("l = py.numpy.array(l)")
+
+
 
 %% Routines
 
