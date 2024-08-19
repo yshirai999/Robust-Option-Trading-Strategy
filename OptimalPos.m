@@ -59,7 +59,7 @@ xp = x(ip);
 xm = -x(im);
 
 W = zeros(size(x));
-p = zeros(size(x));
+q = zeros(size(x));
 W(ip) = exp(-0.5*xp) .* (xp.^(mu+0.5)) .* kummerU(mu-lam+0.5, 1+2*mu, xp);
 W(im) = exp(-0.5*xm) .* (xm.^(mu+0.5)) .* kummerU(mu-lam+0.5, 1+2*mu, xm);
 q(ip) = ( (bptil)^(-cptil) ) * ( (bntil)^(-cntil) ) * ( (yp).^(0.5*(cptil+cntil)-1) ) .* exp(-0.5*yp) .* W(ip) / gammap;
