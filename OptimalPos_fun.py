@@ -14,9 +14,9 @@ def OptimalPos(p,q,x,k,a,Phi,theta,alpha,beta,W,N):
 
     #k = 8
     #N = 50
-    a = np.linspace(0.5,2,N)
+    #a = np.linspace(0.5,2,N)
     #W = 1
-    M = [-0.5,0.5]
+    #M = [-0.5,0.5]
     #model = BG(k,M,params)
     #p = model.p
     #q = model.q
