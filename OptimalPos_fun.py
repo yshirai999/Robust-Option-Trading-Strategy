@@ -3,7 +3,7 @@ import cvxpy as cp
 import numpy as np
 import matplotlib.pyplot as plt
 
-def OptimalPos(p,q,x,k,a,Phi,theta,alpha,beta):
+def OptimalPos(p,q,x,k,a,Phi,theta,alpha,beta,W):
 
     P = np.diag(p)
 
