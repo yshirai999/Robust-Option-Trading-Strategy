@@ -93,12 +93,11 @@ x = py.numpy.array(y.');
 a = py.numpy.array(a.');
 Phi = py.numpy.array(Phi.');
 
-
-
 res = pyrunfile("OptimalPos_fun.py","z",p=p,q=q,x=x,k=k,a=a,Phi=Phi,theta=theta,alpha=alpha,beta=beta,W=W,N=N);
 
 res = double(res);
 q = double(q);
+
 %% Visualization
 
 % Optimal position
@@ -112,7 +111,7 @@ fname=str;
 saveas(gcf, fullfile(fpath, fname), 'epsc');
 
 
-fprintf('Cost of implementing strategy y is %d', q * res')
+fprintf('Cost of implementing strategy y is %d\n', q * res')
 
 % Constraints
 % zz = z.value
