@@ -1,11 +1,8 @@
 # Portfolio Theory with Monetary Preferences
 
-- Can we outperform a benchmark by trading options on it?
-
-- This question may be answered by maximizing
-  - $U(w_1f_1(X_T)+...+w_Nf_N(X_T)-We^{X_T})$
-  - $\text{s.t. } \mathbb{E}^{\mathbb{Q}}[w_1f_1(X_T)+...+w_Nf_N(X_T)] \leq W$
-- $W$ denotes the available capital to be allocated and it is assumed that, denoting by $\Phi$ the Fenchel conjugate of a given distortion $\Psi$,
+- The following problem is here considered:
+  - $U(w_1f_1(X_T)+...+w_Nf_N(X_T)-\mathbb{E}[w_1f_1(X_T)+...+w_Nf_N(X_T)])$
+- It is assumed that, denoting by $\Phi$ the Fenchel conjugate of a given distortion $\Psi$,
   - $U:L^{\infty}\rightarrow \mathbb{R}$ is defined by
     - $U(Y) := \min_{Z\in\mathcal{M}}\mathbb{E}[ZY]-\alpha(Z)$ for $Y\in L^{\infty}$,
     - $\mathcal{M} := \{Z\in L^1_+:\mathbb{E}[Z]=1,\mathbb{E}[(Z-a)^+]\leq \Phi(a), a > 0\}$
@@ -13,10 +10,6 @@
   - $f_1,...,f_N$ are the respective payoff functions of $N$ contingent claims (e.g. options) each with a fixed maturity $T$ (here, 7 days) on the same underlying asset
   - The random variable $X_T$ is the log returns of the underlying asset, and its distribution is assumed to follow the bilateral gamma distribution with parameters $(b_p,c_p,b_n,c_n)$ and $(\tilde{b}_p,\tilde{c}_p,\tilde{b}_n,\tilde{c}_n)$ under the statistical probability $\mathbb{P}$ and the risk neutral probability $\mathbb{Q}$ respectively
   - The parameters $\theta,\alpha,\beta$ may be estimated based on performance of the resulting trading strategy
-
-- **Note on optimal amount $W$ to be invested**: Two possible ways to move forward instead of maximizing net return
-  - Specify an alternative (e.g. Treasuries), which then needs to be included in the optimization (1)
-  - Use non monotonic MUF -> this may be the only way if, say, we are considering a team that specializes in trading a particular asset class, and the capital allocated to the team is decided only once per year
 
 ## Formulation for discipline saddle programming
 
@@ -31,8 +24,7 @@
 - Then, letting $p_Y$ denote the density of $Y$ under $\mathbb{P}$, $\mathbb{P}\left(Y^k=y_j\right)\approx \delta p_Y\left(y_j\right)$
 
 - One is then led to consider the problem
-  - $\max_{\mathbf{w} \in \mathbb{R}^N} \min_{Z^k\in\mathcal{M}} \mathbb{E}[Z^k(w_1f_1(X^k_T)+...+w_Nf_N(X^k_T)-We^{X^k_T})] - \alpha(Z^k)$,
-  - $\text{s.t. } \mathbb{E}^{\mathbb{Q}}[w_1f_1(X_T)+...+w_Nf_N(X_T)] \leq W$
+  - $\max_{\mathbf{w} \in \mathbb{R}^N} \min_{Z^k\in\mathcal{M}} \mathbb{E}[Z^k(w_1f_1(X^k_T)+...+w_Nf_N(X^k_T)-We^{X^k_T}) - \mathbb{E}^{\mathbb{Q}}[w_1f_1(X_T)+...+w_Nf_N(X_T)]] + \alpha(Z^k)$
 
 - Next, assuming all strikes are traded for maturity $T$, we consider the problem,
   - $\max_{\mathbf{q}^T\mathbf{y}=W} \min_{\mathbf{z}\in\mathcal{M}} \mathbf{z}^TP_k(\mathbf{y}-We^{\mathbf{x}}) - \mathbf{p}^T(\theta \mathbf{z}^{\alpha}+(1-\theta)\mathbf{z}^{-\beta})$
@@ -40,7 +32,7 @@
   - $P_k$ denotes the $2^{k}\times 2^{k}$ diagonal matrix with diagonal elements given by $\delta p_{X}(x_j)$, $j=1,...,2^k$,
   - $\mathbf{p}$ and $\mathbf{q}$ are the probability mass of $X^k_T$ under the statistical and the risk neutral measure respectively
   - $\mathbf{y}$, $\mathbf{x}$ and $\mathbf{z}$ are vectors in $\mathbb{R}^{2^k}$ composed of all possible values of $Y^k$, $X^k$ and $Z^k$
-- This formulation seems to fit the functions available in the DSP extension of CVXPY, as it is shown next
+- This formulation seems to fit the functions available in the DSP extension of CVXPY
 
 ## Disciplined Saddle Programming
 
@@ -80,8 +72,8 @@ prob = dsp.SaddlePointProblem(obj, constraints)
 prob.solve()  # solves the problem
 ```
 
-## Note on the Conda Environment
+## Additional Remarks
 
-- Some code is done in MATLAB, which is integrated here using the matlab API
+- The MATLAB folder contains a matlab m file, which solves the problem considered by running a python script
 
 - As this only supports a previous version of Python, do not forget to match your vscode python version with that of the conda environment (v3.10.14)
