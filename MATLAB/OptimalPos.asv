@@ -2,7 +2,7 @@ clear
 clc
 close all
 
-% Parameters
+%% Parameters
 
 % BG parameters
 params = [0.04,10/52,1,5/52,0.02,10/52,1.5,5/52];
@@ -12,7 +12,7 @@ bn = params(3);
 cn = params(4);
 
 % Discretization
-k = 8;
+k = 12;
 M = [-0.5,0.5];
 y = linspace(M(1),M(2),2^k);
 ip = (y > 0);
@@ -64,15 +64,13 @@ q(im) = ( (bptil)^(-cptil) ) * ( (bntil)^(-cntil) ) * ( (ym).^(0.5*(cptil+cntil)
 q = q * delta / ( b^(0.5*(cptil+cntil)) );
 q = q/sum(q);
 
-% Interpolation matrix
+%% Interpolation matrix
 ky = 5;
 [~,ind] = maxk(p,2^ky);
-I = eye(2^ky);
-yy = sort(y(ind));
-A = zeros(2^k,2^ky);
+I = eye(2^k);
 for j=1:2^ky
-    ej = I(:,j);
-    A(:,j) = interp1(yy,ej,y,'spline','extrap');
+    ej = I(:,ind(j));
+    yy = 
 end
 
 
@@ -101,12 +99,11 @@ p = py.numpy.array(p.');
 q = py.numpy.array(q.');
 x = py.numpy.array(y.');
 a = py.numpy.array(a.');
-Anp = py.numpy.array(A.');
 Phi = py.numpy.array(Phi.');
 
-res = pyrunfile("OptimalPos_fun.py","z",p=p,q=q,x=x,a=a,Phi=Phi,A=Anp,k=k,ky=ky,theta=theta,alpha=alpha,beta=beta,W=W,N=N);
+res = pyrunfile("OptimalPos_fun.py","z",p=p,q=q,x=x,k=k,a=a,Phi=Phi,theta=theta,alpha=alpha,beta=beta,W=W,N=N);
 
-res = A*transpose(double(res));
+res = double(res);
 q = double(q);
 
 %% Visualization
