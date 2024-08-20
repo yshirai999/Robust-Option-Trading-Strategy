@@ -4,22 +4,25 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def OptimalPos(
-    p: np.ndarray,
-    q: np.ndarray,
-    x: np.ndarray,
-    a: np.ndarray,
-    Phi: np.ndarray,
     k: float = 8,
     theta: float = 0.25,
     alpha: float = 0.25,
     beta: float = 0.25,
     W: float = 1,
-    N: float = 50
+    N: float = 50,
+    
     ):
     
+    print(k)
+
     k = int(k)
+
+    print(k)
+
     N = int(N)
     
+    print(k)
+
     P = np.diag(p)
 
     y = cp.Variable(2**k)
@@ -87,4 +90,4 @@ def OptimalPos(
 
     return y.value
 
-z = OptimalPos(p, q, x, a, Phi, k, theta, alpha, beta, W, N)
+z = OptimalPos(k, theta, alpha, beta, W, N, p, q, x, a, Phi)
