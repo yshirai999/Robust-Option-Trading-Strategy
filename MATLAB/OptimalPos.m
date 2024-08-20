@@ -12,7 +12,7 @@ bn = params(3);
 cn = params(4);
 
 % Discretization
-k = 8;
+k = 10;
 M = [-0.5,0.5];
 y = linspace(M(1),M(2),2^k);
 ip = (y > 0);
