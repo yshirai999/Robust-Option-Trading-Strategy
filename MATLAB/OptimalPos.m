@@ -97,6 +97,7 @@ res = pyrunfile("OptimalPos_fun.py","z",p=p,q=q,x=x,k=k,a=a,Phi=Phi,theta=theta,
 
 res = double(res);
 q = double(q);
+
 %% Visualization
 
 % Optimal position
