@@ -122,7 +122,7 @@ fname=str;
 saveas(gcf, fullfile(fpath, fname), 'epsc');
 
 
-fprintf('Cost of implementing strategy y is %d\n', q * res')
+fprintf('Cost of implementing strategy y is %d\n', q * res)
 
 % Constraints
 % zz = z.value
