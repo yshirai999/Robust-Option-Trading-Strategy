@@ -1,4 +1,4 @@
-# Optimal derivative positioning for a single stock
+# Portfolio Theory with Monetary Preferences
 
 - Can we outperform a benchmark by trading options on it?
 
