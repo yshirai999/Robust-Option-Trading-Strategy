@@ -13,7 +13,7 @@ def OptimalPos(
     k: float = 8,
     ky: float = 5,
     theta: float = 0.25,
-    alpha: float = 0.25,
+    alpha: float = 1.2,
     beta: float = 0.25,
     W: float = 1,
     N: float = 50

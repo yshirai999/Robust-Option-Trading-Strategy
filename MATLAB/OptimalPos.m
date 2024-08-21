@@ -5,7 +5,7 @@ close all
 % Parameters
 
 % BG parameters
-params = [0.04,10/52,1,5/52,0.02,10/52,1.5,5/52];
+params = [0.04,13/52,1,2/52,0.02,10/52,1.5,5/52];
 bp = params(1);
 cp = params(2);
 bn = params(3);
@@ -84,8 +84,8 @@ lam = 0.25;
 Phi = MMV_Phi(a,lam);
 
 % Rebate
-theta = 0.75;
-alpha = 1.25;
+theta = 0.25;
+alpha = 1.2;
 beta = 0.25;
 
 %% Optimization
@@ -149,5 +149,5 @@ function psi = MMV_Psi(x,lam)
 end
 
 function phi = MMV_Phi(a,lam)
-    phi = ( 1 ./ a.^(1/lam) ).^(lam+1);
+    phi = 1 - a ./ ( 1+a.^(1/lam) ).^(lam+1);
 end

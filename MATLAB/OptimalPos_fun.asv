@@ -13,7 +13,7 @@ def OptimalPos(
     k: float = 8,
     ky: float = 5,
     theta: float = 0.25,
-    alpha: float = 0.25,
+    alpha: float = 1.2,
     beta: float = 0.25,
     W: float = 1,
     N: float = 50
@@ -32,6 +32,7 @@ def OptimalPos(
     
     f = dsp.inner( z, P @ ( A @ y - q @ A @ y ) )
     rho = p @ (cp.multiply(theta, cp.power(z,alpha))+cp.multiply(1-theta,cp.power(z,-beta)))
+    
     constraints = [p @ z == 1, z >= 0]
     for i in range(N): #range(len(a)):
         constraints.append(p @ cp.maximum(z-a[i],0) <= Phi[i])
@@ -52,6 +53,7 @@ def OptimalPos(
     restructured_A = 
         restructured_A.reshape(np.int64(restruct_mat.shape[0]) * np.int64(problem.x.size + 1),problem.A.shape[1], order='F')
     '''
+
     obj = dsp.MinimizeMaximize(rho+f)
     prob = dsp.SaddlePointProblem(obj, constraints)
     prob.solve()  # solves the problem
