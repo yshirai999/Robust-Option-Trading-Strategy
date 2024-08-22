@@ -28,6 +28,17 @@ for i = 1:50
     q{i} = ODPBG(i).dens2;
 end
 
+% Interpolation matrix
+ky = 5;
+[~,ind] = maxk(p,2^ky);
+I = eye(2^ky);
+yy = sort(y(ind));
+A = zeros(2^k,2^ky);
+for j=1:2^ky
+    ej = I(:,j);
+    A(:,j) = interp1(yy,ej,y,'spline','extrap');
+end
+
 %% Optimization
 
 % load python.exe
