@@ -38,8 +38,7 @@ pyenv('Version',...
 py.importlib.import_module('numpy');
 
 
-y = cell(T);
-z = cell(T);
+res = ce
 for i = 1:T
     xx = p{i}(:,1);
     pp = p{i}(:,2);
@@ -51,12 +50,11 @@ for i = 1:T
     Phipy = py.numpy.array(Phi.');
     
     res = pyrunfile("OptimalPos_fun.py","z",p=ppp,q=qqq,k=k,a=aa,Phi=Phipy,theta=theta,alpha=alpha,beta=beta,N=N);
-    
-    y{i} = double(res{1});
-    z{i} = double(res{2});
 
-end
 
+
+res = double(res);
+q = double(q);
 
 %% Visualization
 

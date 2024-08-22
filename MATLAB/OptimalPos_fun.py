@@ -6,14 +6,12 @@ import matplotlib.pyplot as plt
 def OptimalPos(
     p: np.ndarray,
     q: np.ndarray,
-    x: np.ndarray,
     a: np.ndarray,
     Phi: np.ndarray,
     k: float = 8,
     theta: float = 0.25,
     alpha: float = 0.25,
     beta: float = 0.25,
-    W: float = 1,
     N: float = 50
     ):
     
@@ -85,6 +83,6 @@ def OptimalPos(
     # # axes.plot(a,dist.Psi(a))
     # plt.show()
 
-    return y.value
+    return y.value, z.value
 
-z = OptimalPos(p, q, x, a, Phi, k, theta, alpha, beta, W, N)
+z = OptimalPos(p, q, a, Phi, k, theta, alpha, beta, N)
