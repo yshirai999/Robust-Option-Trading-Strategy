@@ -104,7 +104,7 @@ a = py.numpy.array(a.');
 Anp = py.numpy.array(A.');
 Phi = py.numpy.array(Phi.');
 
-res = pyrunfile("OptimalPos_fun.py","z",p=p,q=q,x=x,a=a,Phi=Phi,A=Anp,k=k,ky=ky,theta=theta,alpha=alpha,beta=beta,W=W,N=N);
+res = pyrunfile("OptimalPos_fun.py","z",p=p,q=q,a=a,Phi=Phi,A=Anp,k=k,ky=ky,theta=theta,alpha=alpha,beta=beta,N=N);
 
 res = A*transpose(double(res));
 q = double(q);
