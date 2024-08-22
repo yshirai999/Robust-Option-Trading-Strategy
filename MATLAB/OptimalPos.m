@@ -59,9 +59,10 @@ for i = 1:T
     ppp = py.numpy.array(pp.');
     qqq = py.numpy.array(qq.');
     aa = py.numpy.array(a.');
+    AA = py.numpy.array(A.');
     Phipy = py.numpy.array(Phi.');
     
-    res = pyrunfile("OptimalPos_fun.py","z",p=ppp,q=qqq,k=k,a=aa,Phi=Phipy,theta=theta,alpha=alpha,beta=beta,N=N);
+    res = pyrunfile("OptimalPos_fun.py","z",p=ppp,q=qqq,k=k,a=aa,A=AA,Phi=Phipy,theta=theta,alpha=alpha,beta=beta,N=N);
     
     y{i} = double(res{1});
     z{i} = double(res{2});
