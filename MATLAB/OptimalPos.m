@@ -28,17 +28,6 @@ for i = 1:50
     q{i} = ODPBG(i).dens2;
 end
 
-% Interpolation matrix
-ky = 5;
-[~,ind] = maxk(p,2^ky);
-I = eye(2^ky);
-yy = sort(y(ind));
-A = zeros(2^k,2^ky);
-for j=1:2^ky
-    ej = I(:,j);
-    A(:,j) = interp1(yy,ej,y,'spline','extrap');
-end
-
 %% Optimization
 
 % load python.exe
@@ -48,13 +37,26 @@ pyenv('Version',...
     'ExecutionMode','OutOfProcess');
 py.importlib.import_module('numpy');
 
+%%
 
 y = cell(T);
 z = cell(T);
-for i = 1:T
+for i = 1:1
     xx = p{i}(:,1);
-    pp = p{i}(:,2);
-    qq = q{i}(:,2);
+    pp = p{i}(:,2)/0.0005;
+    qq = q{i}(:,2)/0.0005;
+    
+    % Interpolation matrix
+    k = length(xx);
+    ky = 40;
+    [~,ind] = maxk(pp,ky);
+    I = eye(ky);
+    xxx = sort(xx(ind));
+    A = zeros(k,ky);
+    for j=1:ky
+        ej = I(:,j);
+        A(:,j) = interp1(xxx,ej,xx,'spline','extrap');
+    end
 
     ppp = py.numpy.array(pp.');
     qqq = py.numpy.array(qq.');
@@ -62,28 +64,28 @@ for i = 1:T
     AA = py.numpy.array(A.');
     Phipy = py.numpy.array(Phi.');
     
-    res = pyrunfile("OptimalPos_fun.py","z",p=ppp,q=qqq,k=k,a=aa,A=AA,Phi=Phipy,theta=theta,alpha=alpha,beta=beta,N=N);
+    res = pyrunfile("OptimalPos_fun.py","z",p=ppp,q=qqq,k=k,ky=ky,a=aa,A=AA,Phi=Phipy,theta=theta,alpha=alpha,beta=beta,N=N);
     
-    y{i} = double(res{1});
+    yy = double(res{1});
+    y{i} = A*yy;
     z{i} = double(res{2});
 
 end
+
 
 
 %% Visualization
 
 % Optimal position
 figure()
-M = [-0.3,0.3];
-xlim = ([log(W)+M(1), log(W)+M(2)]);
-plot(x,res)
+plot(p{i}(:,1),y{1})
 fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\OptimalDerivativePos\Figures');
-str=strcat('OptimalSolution_SPY');
+str=strcat('ODP_SPY');
 fname=str;
 saveas(gcf, fullfile(fpath, fname), 'epsc');
 
 
-fprintf('Cost of implementing strategy y is %d\n', q * res')
+fprintf('Cost of implementing strategy y is %d\n', q * y{i}')
 
 % Constraints
 % zz = z.value

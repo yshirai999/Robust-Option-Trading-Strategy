@@ -9,22 +9,24 @@ def OptimalPos(
     A: np.ndarray,
     a: np.ndarray,
     Phi: np.ndarray,
-    k: float = 8,
-    theta: float = 0.25,
-    alpha: float = 0.25,
-    beta: float = 0.25,
-    N: float = 50
+    k: float,
+    ky: float,
+    theta: float,
+    alpha: float,
+    beta: float,
+    N: float
     ):
     
     k = int(k)
+    ky = int(ky)
     N = int(N)
     
     P = np.diag(p)
 
     A = np.transpose(A)
 
-    y = cp.Variable(2**ky)
-    z = cp.Variable(2**k)
+    y = cp.Variable(ky)
+    z = cp.Variable(k)
     
     f = dsp.inner( z, P @ ( A @ y - q @ A @ y ) )
 
@@ -89,4 +91,4 @@ def OptimalPos(
 
     return y.value, z.value
 
-z = OptimalPos(p, q, A, a, Phi, k, theta, alpha, beta, N)
+z = OptimalPos(p, q, A, a, Phi, k, ky, theta, alpha, beta, N)
