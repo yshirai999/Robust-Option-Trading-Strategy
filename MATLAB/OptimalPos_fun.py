@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 def OptimalPos(
     p: np.ndarray,
     q: np.ndarray,
+    A: np.ndarray,
     a: np.ndarray,
     Phi: np.ndarray,
     k: float = 8,
@@ -20,10 +21,13 @@ def OptimalPos(
     
     P = np.diag(p)
 
-    y = cp.Variable(2**k)
-    z = cp.Variable(2**k)
+    A = np.transpose(A)
 
-    f = dsp.inner(z, P @ (y - q @ y))
+    y = cp.Variable(2**ky)
+    z = cp.Variable(2**k)
+    
+    f = dsp.inner( z, P @ ( A @ y - q @ A @ y ) )
+
     rho = p @ (cp.multiply(theta, cp.power(z,alpha))+cp.multiply(1-theta,cp.power(z,-beta)))
     obj = dsp.MinimizeMaximize(rho+f)
     constraints = [p @ z == 1, z >= 0]
@@ -85,4 +89,4 @@ def OptimalPos(
 
     return y.value, z.value
 
-z = OptimalPos(p, q, a, Phi, k, theta, alpha, beta, N)
+z = OptimalPos(p, q, A, a, Phi, k, theta, alpha, beta, N)
