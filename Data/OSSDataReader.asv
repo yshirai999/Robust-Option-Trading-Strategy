@@ -1,0 +1,13 @@
+clear
+clc
+close all
+
+load('C:\Users\yoshi\OneDrive\Desktop\Research\OptimalDerivativePos\Maximin\Data\OSS2RNSOMoutput.mat')
+
+n = length(ODPBG(1).dens1(:,1));
+p = cell(50);
+q = cell(50);
+for i = 1:50
+    p{i} = ODPBG(i).dens1;
+    q{i} = ODPBG(i).dens2;
+end
