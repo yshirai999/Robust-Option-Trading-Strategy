@@ -75,7 +75,9 @@ end
 
 
 %% Visualization
-
+prompt = 'Specify path where to save figures: ';
+fpath = input(prompt);
+%'C:\Users\yoshi\OneDrive\Desktop\Research\OptimalDerivativePos\Maximin\Matlab\Outputs'
 % Optimal position
 close all
 for i = 1:T
@@ -85,7 +87,6 @@ for i = 1:T
     plot(exp(p{i}(:,1)),y{i}) 
     nexttile
     plot(p{i}(:,1),z{i})
-    fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\OptimalDerivativePos\Figures');
     str=strcat('ODP_SPY_Z',num2str(i));
     fname=str;
     saveas(gcf, fullfile(fpath, fname), 'epsc'); 
