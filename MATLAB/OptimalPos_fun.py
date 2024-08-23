@@ -33,7 +33,7 @@ def OptimalPos(
     rho = p @ (cp.multiply(theta, cp.power(z,alpha))+cp.multiply(1-theta,cp.power(z,-beta)))
     obj = dsp.MinimizeMaximize(rho+f)
     constraints = [p @ z == 1, z >= 0]
-    for i in range(N): #range(len(a)):
+    for i in range(N):
         constraints.append(p @ cp.maximum(z-a[i],0) <= Phi[i])
 
 
@@ -57,7 +57,7 @@ def OptimalPos(
     prob = dsp.SaddlePointProblem(obj, constraints)
     prob.solve()  # solves the problem
 
-    print(prob.value)
+    # print(prob.value)
 
     # fig = plt.figure()
     # axes = fig.add_axes([0.1, 0.1, 0.75, 0.75])

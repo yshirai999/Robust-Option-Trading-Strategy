@@ -1,8 +1,10 @@
-clear
-clc
-close all
+% clear
+% clc
+% close all
 
 load('C:\Users\yoshi\OneDrive\Desktop\Research\OptimalDerivativePos\Maximin\Data\OSS2RNSOMoutput.mat')
+
+load('C:\Users\yoshi\OneDrive\Desktop\Research\OptimalDerivativePos\Maximin\Data\DSPinputs.mat')
 
 n = length(ODPBG(1).dens1(:,1));
 p = cell(50);

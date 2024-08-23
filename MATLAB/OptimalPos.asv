@@ -80,18 +80,13 @@ end
 close all
 for i = 1:T
     figure()
-    tiledlayout(1,2)
-    nexttile
-    plot(exp(p{i}(:,1)),y{i}) 
-    nexttile
-    plot(p{i}(:,1),z{i})
+    tiledlayout
+    plot(exp(p{i}(:,1)),y{i})
     fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\OptimalDerivativePos\Figures');
-    str=strcat('ODP_SPY_Z',num2str(i));
+    str=strcat('ODP_SPY',num2str(i));
     fname=str;
     saveas(gcf, fullfile(fpath, fname), 'epsc'); 
-
     fprintf('Date %d: cost of implementing strategy y is %d\n',i, q{i}(:,2)' * y{i})
-    fprintf('Date %d: check z integrates to 1 %d\n',i, p{i}(:,2)' * z{i}')
 end
 
 % Constraints
