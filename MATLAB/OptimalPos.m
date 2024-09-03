@@ -2,42 +2,67 @@ clear
 clc
 close all
 
-% Parameters
+%% Parameters
 
-% BG parameters
-params = [0.04,13/52,1,2/52,0.02,10/52,1.5,5/52];
+%% Constraints
+N = 50;
+a = linspace(0.5,2,N);
+lam = 0.25;
+Phi = MMV_Phi(a,lam);
+
+% Rebate
+theta = 0.25;
+alpha = 1.2;
+beta = 0.25;
+
+%% Bilateral CGMY Parameters
+params = [0.04,13/52,1,2/52,0,0,0.02,10/52,1.5,5/52,0,0];
 bp = params(1);
 cp = params(2);
 bn = params(3);
 cn = params(4);
+Yp = params(5);
+Yn = params(6);
 
 % Discretization
-k = 10;
+k = 10000;
 M = [-0.5,0.5];
-y = linspace(M(1),M(2),2^k);
-ip = (y > 0);
-im = (y < 0);
-yp = y(ip);
-ym = -y(im);
-delta = (M(2)-M(1))/(2^k-1);
+x = linspace(M(1),M(2),N);
+delta = (M(2)-M(1))/(N-1);
 
-b = (1/bp+1/bn);
-gammap = gamma(cp);
-gamman = gamma(cn);
-lam = 0.5*(cp+cn);
-mu = 0.5*(cp+cn-1);
-x = y*b;
-xp = x(ip);
-xm = -x(im);
+nu = delta*((cp.*exp(-x/bn)./x.^(1+Yp)).*(x>0) + (cn.*exp(x/bp)./(-x).^(1+Yn)).*(x<0));
 
-W = zeros(size(x));
-p = zeros(size(x));
-W(ip) = exp(-0.5*xp) .* (xp.^(mu+0.5)) .* kummerU(mu-lam+0.5, 1+2*mu, xp);
-W(im) = exp(-0.5*xm) .* (xm.^(mu+0.5)) .* kummerU(mu-lam+0.5, 1+2*mu, xm);
-p(ip) = ( (bp)^(-cp) ) * ( (bn)^(-cn) ) * ( (yp).^(0.5*(cp+cn)-1) ) .* exp(-0.5*yp) .* W(ip) / gammap;
-p(im) = ( (bp)^(-cp) ) * ( (bn)^(-cn) ) * ( (ym).^(0.5*(cp+cn)-1) ) .* exp(-0.5*ym) .* W(im) / gamman;
-p = p * delta / ( b^(0.5*(cp+cn)) );
-p = p/sum(p);
+% alpha2
+chip_a2 = (x.^(2*alpha)).*nu;
+Ap_a2 = sum(chip_a2);
+chip_a2 = chip_a2/Ap_a2;
+chin_a2 = (x.^(2*alpha)).*nu;
+An_a2 = sum(chin_a2);
+chin_a2 = chin_a2/An_a2;
+
+% alpha4
+chip_a4 = (x.^(2*alpha)).*nu;
+Ap_a4 = sum(chip_a4);
+chip_a4 = chip_a4/Ap_a4;
+chin_a4 = (x.^(2*alpha)).*nu;
+An_a4 = sum(chin_a4);
+chin_a4 = chin_a4/An_a4;
+
+% beta2
+chip_b2 = (x.^(2*alpha)).*nu;
+Ap_b2 = sum(chip_b2);
+chip_b2 = chip_b2/Ap_b2;
+chin_b2 = (x.^(2*alpha)).*nu;
+An_b2 = sum(chin_b2);
+chin_b2 = chin_b2/An_b2;
+
+% beta4
+chip_b4 = (x.^(2*alpha)).*nu;
+Ap_b4 = sum(chip_b4);
+chip_b4 = chip_b4/Ap_b4;
+chin_b4 = (x.^(2*alpha)).*nu;
+An_b4 = sum(chin_b4);
+chin_b4 = chin_b4/An_b4;
 
 % BG Risk neutral parameters
 bptil = params(5);
@@ -75,18 +100,6 @@ for j=1:2^ky
     A(:,j) = interp1(yy,ej,y,'spline','extrap');
 end
 
-
-%%
-% Constraints
-N = 50;
-a = linspace(0.5,2,N);
-lam = 0.25;
-Phi = MMV_Phi(a,lam);
-
-% Rebate
-theta = 0.25;
-alpha = 1.2;
-beta = 0.25;
 
 %% Optimization
 
