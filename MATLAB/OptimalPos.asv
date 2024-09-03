@@ -2,7 +2,7 @@ clear
 clc
 close all
 
-%% Constraints
+% Constraints
 C = 50;
 lamp = linspace(1.1,2,C);
 lamn = linspace(0.1,0.9,C);
@@ -60,13 +60,13 @@ if yp>0
 else
     Bp = expint(eps);
 end
-p_p0 = (cp/Bp)*(exp(-M*x)./(x.^(1+yp))).*(x>eps);
+p_p0 = (cp/Bp)*(exp(-Mx)./(x.^(1+yp)))*(x>eps);
 if yn>0
     Bn = (cp*G^(yn)) * ( (exp(-eps)*(eps^(-yn))/yn) - (1/yn)*igamma(yn,eps) );
 else
     Bn = expint(eps);
 end
-p_n0 = (cn/Bn)*(exp(G*x)./((-x).^(1+yn))).*(x<-eps);
+p_n0 = (cn/Bn)*(exp(Gx)./((-x).^(1+yn)))*(x<-eps);
 
 %% Interpolation matrix
 K = 50;
