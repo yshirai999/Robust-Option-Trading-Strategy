@@ -19,7 +19,7 @@ eps = 0.01;
 
 % Rebate
 theta = 1;
-alpha = 1;
+alpha = 1.2;
 beta = 0.25;
 
 %% BCGMY
@@ -32,7 +32,8 @@ yp = params(5);
 yn = params(6);
 
 % Discretization
-N = 10000;
+K = 50; % discretization of y
+N = 10000; %discretization of z
 X = [-0.5,0.5];
 x = linspace(X(1),X(2),N);
 x2 = x.*x;
@@ -70,8 +71,18 @@ else
 end
 p_n0 = (cn/B_n)*(exp(G*x)./((-x).^(1+yn))).*(x<-eps);
 
+% cost
+Mq = 1/params(7);
+Gq = 1/params(8);
+cpq = params(9);
+cnq = params(10);
+ypq = params(11);
+ynq = params(12);
+
+q_p0 = (cpq)*(exp(-Mq*x)./(x.^(1+ypq))).*(x>eps);
+q_n0 = (cnq)*(exp(Gq*x)./((-x).^(1+ynq))).*(x<-eps);
+
 %% Interpolation matrix
-K = 50;
 xx = linspace(x(1),x(end),K);
 I = eye(K);
 M = zeros(N,K);
@@ -106,6 +117,8 @@ B_p_py = py.numpy.array(B_p.');
 p_p0_py = py.numpy.array(p_p0.');
 B_n_py = py.numpy.array(B_n.');
 p_n0_py = py.numpy.array(p_n0.');
+q_p0_py = py.numpy.array(q_p0.');
+q_n0_py = py.numpy.array(q_n0.');
 M_py = py.numpy.array(M.');
 lamp_py = py.numpy.array(lamp.');
 lamn_py = py.numpy.array(lamn.');
@@ -131,6 +144,8 @@ res = pyrunfile("OptimalPos_fun.py","z",...
     p_p0 = p_p0_py,...
     B_n = B_n_py,...
     p_n0 = p_n0_py,...
+    q_p0 = q_p0_py,...
+    q_n0 = q_n0_py,...
     M = M_py,...
     lamp = lamp_py,...
     lamn= lamn_py,...
