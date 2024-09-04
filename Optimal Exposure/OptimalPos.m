@@ -24,8 +24,8 @@ beta = 0.25;
 
 %% BCGMY
 params = [0.04,13/52,1.2,2/52,0,0,0.02,10/52,1.5,5/52,0,0];
-M = 1/params(1);
-G = 1/params(3);
+M = params(1);
+G = params(3);
 cp = params(2);
 cn = params(4);
 yp = params(5);
@@ -40,7 +40,7 @@ x2 = x.*x;
 % alpha2-rebate
 A_pa2 = cp*M.^(2*alpha+yp).*gamma(2*alpha-yp);
 p_pa2 = (cp/A_pa2).*(x.^(2*alpha-yp-1)).*exp(-M*x).*(x>0);
-A_na2 = cn*G.^(2*alpha+yn).*gamma(2*alpha-yn);
+A_na2 = cn*G.^(-2*alpha+yn).*gamma(2*alpha-yn);
 p_na2 = (cn/A_na2).*((-x).^(2*alpha-yn-1)).*exp(G*x).*(x<0);
 
 % inner2
