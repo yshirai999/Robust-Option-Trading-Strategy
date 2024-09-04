@@ -26,6 +26,7 @@ def OptimalPos(
     Phi_u: np.ndarray,
     Phi_l: np.ndarray,
     x2: np.ndarray,
+    x2inv: np.ndarray,
     N: float,
     K: float,
     C: float,
@@ -50,25 +51,20 @@ def OptimalPos(
     rho = A_pa2*p_pa2 @ cp.multiply(theta, cp.power(zp+zn,alpha)) \
             + A_na2*p_na2 @ cp.multiply(theta, cp.power(zp+zn,alpha))
 
-#     f = dsp.inner( zp, P @ ( M @ y ) )
-#     f1 = (A_p2*p_p2) @ (M @ y)
-#     rho = A_pa2*p_pa2 @ cp.multiply(theta, cp.power(zp,alpha)) \
-#             + A_na2*p_na2 @ cp.multiply(theta, cp.power(zp,alpha))
-
     constraints = [zp >= 0]
     constraints.append(zn >= 0)
-    constraints.append(zn <= x2)
+    constraints.append(zn <= x2inv)
     for i in range(C): #range(len(a)):
         pp = B_p*p_p0
         pn = B_n*p_n0
-        constraints.append(pp @ cp.maximum( cp.multiply(x2,zp-zn)-(lamp[i]-1), 0 ) <= Phi_u[i])
-        constraints.append(pn @ cp.maximum( (lamn[i]-1)-cp.multiply(x2,zp-zn), 0 ) <= -Phi_l[i])
+        constraints.append(pp @ cp.maximum( cp.multiply(x2,cp.power(zp-zn,alpha))-(lamp[i]-1), 0 ) <= Phi_u[i])
+        constraints.append(pn @ cp.maximum( (lamn[i]-1)-cp.multiply(x2,cp.power(zp-zn,alpha)), 0 ) <= -Phi_l[i])
 #         constraints.append(pp @ cp.maximum( cp.multiply(x2,zp)-(lamp[i]-1), 0 ) <= Phi_u[i])
 #         constraints.append(pn @ cp.maximum( (lamn[i]-1)-cp.multiply(x2,zp), 0 ) <= -Phi_l[i])
 
     obj = dsp.MinimizeMaximize(rho+f+f1)
     prob = dsp.SaddlePointProblem(obj, constraints)
-    prob.solve()  # solves the problem
+    prob.solve(verbose = True)  # solves the problem
 
     print(prob.value)
     return y.value
@@ -76,4 +72,4 @@ def OptimalPos(
 z = OptimalPos(p_pa2,p_na2,p_p2,p_n2,p_p4,p_n4,
                A_pa2,A_na2,A_p2,A_n2,A_p4,A_n4,
                B_p,p_p0,B_n,p_n0,M,lamp,lamn,
-               Phi_u,Phi_l,x2,N,K,C,theta,alpha,)
+               Phi_u,Phi_l,x2,x2inv,N,K,C,theta,alpha,)
