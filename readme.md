@@ -1,4 +1,4 @@
-# Portfolio Theory with Monetary Preferences
+# Optimal Spot Slide
 
 - The following problem is here considered:
   - $U(w_1f_1(X_T)+...+w_Nf_N(X_T)-\mathbb{E}[w_1f_1(X_T)+...+w_Nf_N(X_T)])$
