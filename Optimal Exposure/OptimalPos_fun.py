@@ -49,6 +49,11 @@ def OptimalPos(
     f1 = (p_p2+p_n2) @ (M @ y)
     rho = A_pa2*p_pa2 @ cp.multiply(theta, cp.power(zp+zn,alpha)) \
             + A_na2*p_na2 @ cp.multiply(theta, cp.power(zp+zn,alpha))
+
+    f = dsp.inner( zp, P @ ( M @ y ) )
+    f1 = (p_p2) @ (M @ y)
+    rho = A_pa2*p_pa2 @ cp.multiply(theta, cp.power(zp,alpha)) \
+            + A_na2*p_na2 @ cp.multiply(theta, cp.power(zp,alpha))
     
     constraints = [zp >= 0]
     constraints.append(zn >= 0)
@@ -56,8 +61,8 @@ def OptimalPos(
     for i in range(C): #range(len(a)):
         pp = B_p*p_p0
         pn = B_n*p_n0
-        constraints.append(pp @ cp.maximum( cp.multiply(x2,zp-zn)-(lamp[i]-1), 0 ) <= Phi_u[i])
-        constraints.append(pn @ cp.maximum( (lamn[i]-1)-cp.multiply(x2,zp-zn), 0 ) <= -Phi_l[i])
+        #constraints.append(pp @ cp.maximum( cp.multiply(x2,zp-zn)-(lamp[i]-1), 0 ) <= Phi_u[i])
+        #constraints.append(pn @ cp.maximum( (lamn[i]-1)-cp.multiply(x2,zp-zn), 0 ) <= -Phi_l[i])
 
     obj = dsp.MinimizeMaximize(rho+f+f1)
     prob = dsp.SaddlePointProblem(obj, constraints)
