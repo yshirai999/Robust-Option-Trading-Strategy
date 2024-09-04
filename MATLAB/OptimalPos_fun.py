@@ -48,10 +48,11 @@ def OptimalPos(
     f = dsp.inner( zp-zn, P @ ( M @ y ) )
     f1 = (p_p2+p_n2) @ (M @ y)
     rho = A_pa2*p_pa2 @ cp.multiply(theta, cp.power(zp+zn,alpha)) \
-            + A_na2*p_na2 @ cp.multiply(theta,cp.power(zp+zn,alpha))
+            + A_na2*p_na2 @ cp.multiply(theta, cp.power(zp+zn,alpha))
     
     constraints = [zp >= 0]
-    constraints.append([zn >= 0])
+    constraints.append(zn >= 0)
+    constraints.append(zn <= x2)
     for i in range(C): #range(len(a)):
         pp = B_p*p_p0
         pn = B_n*p_n0

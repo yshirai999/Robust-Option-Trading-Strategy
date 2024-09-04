@@ -18,12 +18,12 @@ Phi_l = Phitil(b,c,lamn);
 eps = 0.01;
 
 % Rebate
-theta = 0.25;
+theta = 1;
 alpha = 1.2;
 beta = 0.25;
 
 %% BCGMY
-params = [0.04,13/52,1,2/52,0,0,0.02,10/52,1.5,5/52,0,0];
+params = [0.04,13/52,1.2,2/52,0,0,0.02,10/52,1.5,5/52,0,0];
 M = 1/params(1);
 G = 1/params(3);
 cp = params(2);
