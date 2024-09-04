@@ -2,7 +2,7 @@ clear
 clc
 close all
 
-% Constraints
+%% Constraints
 C = 50;
 lamp = linspace(1.1,2,C);
 lamn = linspace(0.1,0.9,C);
@@ -35,6 +35,7 @@ yn = params(6);
 N = 10000;
 X = [-0.5,0.5];
 x = linspace(X(1),X(2),N);
+x2 = x.*x;
 
 % alpha2-rebate
 A_pa2 = cp*M.^(2*alpha+yp).*gamma(2*alpha-yp);
@@ -56,17 +57,17 @@ p_n4 = (cn/A_n4).*((-x).^(4-yn-1)).*exp(G*x).*(x<0);
 
 % constraints
 if yp>0
-    Bp = (cp*M^(yp)) * ( (exp(-eps)*(eps^(-yp))/yp) - (1/yp)*igamma(yp,eps) );
+    B_p = (cp*M^(yp)) * ( (exp(-eps)*(eps^(-yp))/yp) - (1/yp)*igamma(yp,eps) );
 else
-    Bp = expint(eps);
+    B_p = expint(eps);
 end
-p_p0 = (cp/Bp)*(exp(-Mx)./(x.^(1+yp)))*(x>eps);
+p_p0 = (cp/B_p)*(exp(-M*x)./(x.^(1+yp))).*(x>eps);
 if yn>0
-    Bn = (cp*G^(yn)) * ( (exp(-eps)*(eps^(-yn))/yn) - (1/yn)*igamma(yn,eps) );
+    B_n = (cp*G^(yn)) * ( (exp(-eps)*(eps^(-yn))/yn) - (1/yn)*igamma(yn,eps) );
 else
-    Bn = expint(eps);
+    B_n = expint(eps);
 end
-p_n0 = (cn/Bn)*(exp(Gx)./((-x).^(1+yn)))*(x<-eps);
+p_n0 = (cn/B_n)*(exp(G*x)./((-x).^(1+yn))).*(x<-eps);
 
 %% Interpolation matrix
 K = 50;
@@ -88,14 +89,57 @@ pyenv('Version',...
     'ExecutionMode','OutOfProcess');
 py.importlib.import_module('numpy');
 
-p = py.numpy.array(p.');
-q = py.numpy.array(q.');
-x = py.numpy.array(y.');
-a = py.numpy.array(a.');
-Anp = py.numpy.array(A.');
-Phi = py.numpy.array(Phi.');
+p_pa2 = py.numpy.array(p_pa2.');
+p_na2 = py.numpy.array(p_na2.');
+p_p2 = py.numpy.array(p_p2.');
+p_n2 = py.numpy.array(p_n2.');
+p_p4 = py.numpy.array(p_p4.');
+p_n4 = py.numpy.array(p_n4.');
+A_pa2 = py.numpy.array(A_pa2.');
+A_na2 = py.numpy.array(A_na2.');
+A_p2 = py.numpy.array(A_p2.');
+A_n2 = py.numpy.array(A_n2.');
+A_p4 = py.numpy.array(A_p4.');
+A_n4 = py.numpy.array(A_n4.');
+B_p = py.numpy.array(B_p.');
+p_p0 = py.numpy.array(p_p0.');
+B_n = py.numpy.array(B_n.');
+p_n0 = py.numpy.array(p_n0.');
+M = py.numpy.array(M.');
+lamp = py.numpy.array(lamp.');
+lamn = py.numpy.array(lamn.');
+Phi_u = py.numpy.array(Phi_u.');
+Phi_l = py.numpy.array(Phi_l.');
+x2 = py.numpy.array(x2.');
 
-res = pyrunfile("OptimalPos_fun.py","z",p=p,q=q,a=a,Phi=Phi,A=Anp,k=k,ky=ky,theta=theta,alpha=alpha,beta=beta,N=N);
+res = pyrunfile("OptimalPos_fun.py","z",...
+    p_pa2 = p_pa2,...
+    p_na2 = p_na2,...
+    p_p2 = p_p2,...
+    p_n2 = p_n2,...
+    p_p4 = p_p2,...
+    p_n4 = p_n4,...
+    A_pa2 = A_pa2,...
+    A_na2 = A_na2,...
+    A_p2 = A_p2,...
+    A_n2 = A_n2,...
+    A_p4 = A_p4,...
+    A_n4 = A_n4,...
+    B_p = B_p,...
+    p_p0 = p_p0,...
+    B_n = B_n,...
+    p_n0 = p_n0,...
+    M = M,...
+    lamp = lamp,...
+    lamn= lamn,...
+    Phi_u = Phi_u,...
+    Phi_l = Phi_l,...
+    x2 = x2,...
+    N = N,...
+    K = K,...
+    C = C,...
+    theta = theta,...
+    alpha = alpha);
 
 res = A*transpose(double(res));
 q = double(q);
