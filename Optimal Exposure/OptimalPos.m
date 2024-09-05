@@ -6,7 +6,7 @@ close all
 C = 50;
 lamp = linspace(1.1,2,C);
 lamn = linspace(0.1,0.9,C);
-a = 0.01;
+a = 1;
 b = 1;
 c = 0.5;
 gam = 1;
@@ -33,8 +33,8 @@ yn = params(6);
 
 % Discretization
 K = 50; % discretization of y
-N = 10000; %discretization of z
-X = [-0.5,0.5];
+N = 1000; %discretization of z
+X = [-10,10];
 x = linspace(X(1),X(2),N);
 x2 = x.*x;
 x2inv = 1./x2;
@@ -42,19 +42,19 @@ x2inv = 1./x2;
 % alpha2-rebate
 A_pa2 = cp*M^(-2*alpha+yp).*gamma(2*alpha-yp);
 p_pa2 = (cp/A_pa2).*(x.^(2*alpha-yp-1)).*exp(-M*x).*(x>0);
-A_na2 = cn*G.^(-2*alpha-yn).*gamma(2*alpha-yn);
+A_na2 = cn*G.^(-2*alpha+yn).*gamma(2*alpha-yn);
 p_na2 = (cn/A_na2).*((-x).^(2*alpha-yn-1)).*exp(G*x).*(x<0);
 
 % inner2
-A_p2 = cp*M.^(-2-yp).*gamma(2-yp);
+A_p2 = cp*M.^(-2+yp).*gamma(2-yp);
 p_p2 = (cp/A_p2).*(x.^(2-yp-1)).*exp(-M*x).*(x>0);
 A_n2 = cn*G.^(-2-yn).*gamma(2-yn);
 p_n2 = (cn/A_n2).*((-x).^(2-yn-1)).*exp(G*x).*(x<0);
 
 % inner4
-A_p4 = cp*M.^(-4-yp).*gamma(4-yp);
+A_p4 = cp*M.^(-4+yp).*gamma(4-yp);
 p_p4 = (cp/A_p4).*(x.^(4-yp-1)).*exp(-M*x).*(x>0);
-A_n4 = cn*G.^(-4-yn).*gamma(4-yn);
+A_n4 = cn*G.^(-4+yn).*gamma(4-yn);
 p_n4 = (cn/A_n4).*((-x).^(4-yn-1)).*exp(G*x).*(x<0);
 
 % constraints
