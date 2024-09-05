@@ -9,7 +9,7 @@ lamn = linspace(0.1,0.9,C);
 a = 0.01;
 b = 1;
 c = 0.5;
-gam = 0.25;
+gam = 1;
 Phi_u = zeros(C,1);
 for i=1:C
     Phi_u(i) = Phiup(a,c,gam,lamp(i));
@@ -18,7 +18,7 @@ Phi_l = Phitil(b,c,lamn);
 eps = 0.01;
 
 % Rebate
-theta = 1;
+theta = 0.25;
 alpha = 1.2;
 beta = 0.25;
 
@@ -40,7 +40,7 @@ x2 = x.*x;
 x2inv = 1./x2;
 
 % alpha2-rebate
-A_pa2 = cp*M.^(-2*alpha-yp).*gamma(2*alpha-yp);
+A_pa2 = cp*M^(-2*alpha+yp).*gamma(2*alpha-yp);
 p_pa2 = (cp/A_pa2).*(x.^(2*alpha-yp-1)).*exp(-M*x).*(x>0);
 A_na2 = cn*G.^(-2*alpha-yn).*gamma(2*alpha-yn);
 p_na2 = (cn/A_na2).*((-x).^(2*alpha-yn-1)).*exp(G*x).*(x<0);

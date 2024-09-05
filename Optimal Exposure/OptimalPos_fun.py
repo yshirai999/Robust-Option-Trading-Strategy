@@ -41,21 +41,24 @@ def OptimalPos(
     C = int(C)
 
     P = np.diag(A_p4*p_p4 + A_n4*p_n4)
-    
+    q = q_p0+q_n0;
+
     M = np.transpose(M)
 
     y = cp.Variable(K)
     zp = cp.Variable(N)
     zn = cp.Variable(N)
     
-    f = dsp.inner( zp-zn, P @ ( M @ y ) )
-    f1 = (A_p2*p_p2+A_n2*p_n2) @ (M @ y)
+    f = dsp.inner( zp-zn, P @ ( M @ y - q @ M @ y) )
+    f1 = (A_p2*p_p2+A_n2*p_n2) @ (M @ y - q @ M @ y)
     rho = A_pa2*p_pa2 @ cp.multiply(theta, cp.power(zp+zn,alpha)) \
             + A_na2*p_na2 @ cp.multiply(theta, cp.power(zp+zn,alpha))
 
     constraints = [zp >= 0]
     constraints.append(zn >= 0)
     constraints.append(zn <= x2inv)
+    constraints.append(y>=-100)
+    constraints.append(y<=100)
     for i in range(C): #range(len(a)):
         pp = B_p*p_p0
         pn = B_n*p_n0
