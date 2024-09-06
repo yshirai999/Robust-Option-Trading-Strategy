@@ -52,7 +52,7 @@ def OptimalPos(
 
     obj = dsp.MinimizeMaximize(rho+f+f1)
     prob = dsp.SaddlePointProblem(obj, constraints)
-    prob.solve(verbose = verbose)  # solves the problem
+    prob.solve(solver = cp.SCS,verbose = verbose)  # solves the problem
 
     print(prob.value)
     return y.value
