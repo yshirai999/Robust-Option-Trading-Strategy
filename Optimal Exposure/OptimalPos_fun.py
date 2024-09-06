@@ -4,25 +4,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def OptimalPos(
-    p_pa2: np.ndarray,
-    p_na2: np.ndarray,
-    p_p2: np.ndarray,
-    p_n2: np.ndarray,
-    p_p4: np.ndarray,
-    p_n4: np.ndarray,
-    A_pa2: np.ndarray,
-    A_na2: np.ndarray,
-    A_p2: np.ndarray,
-    A_n2: np.ndarray,
-    A_p4: np.ndarray,
-    A_n4: np.ndarray,
-    B_p: np.ndarray,
-    p_p0: np.ndarray,
-    B_n: np.ndarray,
-    p_n0: np.ndarray,
-    q_p0: np.ndarray,
-    q_n0: np.ndarray,
-    M: np.ndarray,
+    pa2: np.ndarray,
+    p2: np.ndarray,
+    p4: np.ndarray,
+    p0: np.ndarray,
+    q0: np.ndarray,
+    MM: np.ndarray,
     lamp: np.ndarray,
     lamn: np.ndarray,
     Phi_u: np.ndarray,
@@ -32,47 +19,42 @@ def OptimalPos(
     N: float,
     K: float,
     C: float,
-    theta: float = 0.25,
-    alpha: float = 1.2,
+    alpha: float,
+    verbose: str
     ):
     
     N = int(N)
     K = int(K)
     C = int(C)
+    
+    verbose = verbose == 'True'
 
-    P = np.diag(A_p4*p_p4 + A_n4*p_n4)
-    q = q_p0+q_n0;
+    P = np.diag(p4)
 
-    M = np.transpose(M)
+    MM = np.transpose(MM)
 
     y = cp.Variable(K)
     zp = cp.Variable(N)
     zn = cp.Variable(N)
-    
-    f = dsp.inner( zp-zn, P @ ( M @ y - q @ M @ y) )
-    f1 = (A_p2*p_p2+A_n2*p_n2) @ (M @ y - q @ M @ y)
-    rho = A_pa2*p_pa2 @ cp.multiply(theta, cp.power(zp+zn,alpha)) \
-            + A_na2*p_na2 @ cp.multiply(theta, cp.power(zp+zn,alpha))
+
+    f = dsp.inner( zp-zn, P @ ( MM @ y - q0 @ MM @ y) )
+    f1 = (p2) @ (MM @ y - q0 @ MM @ y)
+    rho = pa2 @ cp.power(zp+zn,alpha)
 
     constraints = [zp >= 0]
     constraints.append(zn >= 0)
     constraints.append(zn <= x2inv)
     constraints.append(y>=-100)
     constraints.append(y<=100)
-    for i in range(C): #range(len(a)):
-        pp = B_p*p_p0
-        pn = B_n*p_n0
-        constraints.append(pp @ cp.maximum( cp.multiply(x2,zp-zn)-(lamp[i]-1), 0 ) <= Phi_u[i])
-        constraints.append(pn @ cp.maximum( (1-lamn[i])-cp.multiply(x2,zp-zn), 0 ) <= -Phi_l[i])
+    for i in range(C): 
+        constraints.append(p0 @ cp.maximum( cp.multiply(x2,zp-zn)-(lamp[i]-1), 0 ) <= Phi_u[i])
+        constraints.append(p0 @ cp.maximum( (1-lamn[i])-cp.multiply(x2,zp-zn), 0 ) <= -Phi_l[i])
 
     obj = dsp.MinimizeMaximize(rho+f+f1)
     prob = dsp.SaddlePointProblem(obj, constraints)
-    prob.solve(verbose = True)  # solves the problem
+    prob.solve(verbose = verbose)  # solves the problem
 
     print(prob.value)
     return y.value
 
-z = OptimalPos(p_pa2,p_na2,p_p2,p_n2,p_p4,p_n4,
-               A_pa2,A_na2,A_p2,A_n2,A_p4,A_n4,
-               B_p,p_p0,B_n,p_n0,q_p0,q_n0,M,lamp,lamn,
-               Phi_u,Phi_l,x2,x2inv,N,K,C,theta,alpha,)
+z = OptimalPos(pa2,p2,p4,p0,q0,MM,lamp,lamn,Phi_u,Phi_l,x2,x2inv,N,K,C,alpha,verbose)
