@@ -23,7 +23,7 @@ def OptimalPos(
     alpha: float,
     verbose: str
     ):
-    
+
     N = int(N)
     K = int(K)
     C = int(C)

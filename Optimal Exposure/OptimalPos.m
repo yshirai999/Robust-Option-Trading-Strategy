@@ -23,9 +23,9 @@ TT = length(a);
 pythonpath = "OptimalPos_fun_v2.py";
 
 %% Constraints
-C = 75;
-lamp = linspace(1.1,2,C);
-lamn = linspace(0.1,0.9,C);
+C = 5;
+lamp = linspace(1,2,C);
+lamn = linspace(0.8,1,C);
 a = 2;
 b = 1;
 c = 0.5;
@@ -210,7 +210,9 @@ end
 %% Routines
 
 function phi = Phitil(b,c,lam)
-    phi = -(1-lam).*(log((1-lam)/b)/c)-(b/c)*(1 - (1-lam)/b );
+    lamp = lam(lam<1);
+    phi(lam<1) = -(1-lamp).*(log((1-lamp)/b)/c)-(b/c)*(1 - (1-lamp)/b );
+    phi(lam==1) = -b/c;
 end
 
 function phi = Phiup(a,c,gam,lam)
