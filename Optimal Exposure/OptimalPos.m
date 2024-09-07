@@ -17,8 +17,13 @@ ynv=2*exp(-abs(parm(:,6)));
 parmm=[cpv bpv ypv cnv bnv ynv];
 
 TT = length(a);
+
+%% Path to python file
+
+pythonpath = "OptimalPos_fun_v2.py";
+
 %% Constraints
-C = 50;
+C = 30;
 lamp = linspace(1.1,2,C);
 lamn = linspace(0.1,0.9,C);
 a = 2;
@@ -30,7 +35,7 @@ for i=1:C
     Phi_u(i) = Phiup(a,c,gam,lamp(i));
 end
 Phi_l = Phitil(b,c,lamn);
-eps = 0.01;
+eps = 1;
 
 % Rebate
 alpha = 1.2;
@@ -55,10 +60,9 @@ end
 
 %% Optimization
 
-for tt = 2%1:TT/2
+for tt = 3%1:TT/2
     % BCGMY
     params = [parmm(2*tt-1,:),parmm(2*tt,:)];
-    %[0.04,13/52,1.2,2/52,0,0,0.02,10/52,1.5,5/52,0,0];
     
     cp = params(1);
     M = 1/params(2);
@@ -73,8 +77,8 @@ for tt = 2%1:TT/2
     fun = @(eta)NA(cp,M,eta(1),yp,cn,G,eta(2),yn,xp,xn,x,delta);
     eta = fminunc(fun,[0,0]);
     
-    M_eta = M+eta(1); %ensuring stock and inverse stock contracts cannot be scaled up indefinitely.
-    G_eta = G+eta(2);
+    M_eta = M+eta(1);
+    G_eta = G+eta(2); %ensuring long stock and inverse stock cannot be scaled up indefinitely.
     
     pa2 = [(cn).*((-xn).^(2*alpha-yn-1)).*exp(G_eta*xn)*delta,...
            (cp).*(xp.^(2*alpha-yp-1)).*exp(-M_eta*xp)*delta];
@@ -116,7 +120,7 @@ for tt = 2%1:TT/2
     x2_py = py.numpy.array(x2.');
     x2inv_py = py.numpy.array(x2inv.');
     
-    res = pyrunfile("OptimalPos_fun_v2.py","z",...
+    res = pyrunfile(pythonpath,"z",...
         pa2 = pa2_py,...
         p2 = p2_py,...
         p4 = p4_py,...

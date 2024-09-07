@@ -39,11 +39,11 @@ def OptimalPos(
 
 #     f = dsp.inner( z, P @ ( MM @ y - q0 @ MM @ y) )
 #     f1 = (p2) @ (MM @ y - q0 @ MM @ y)
-    f = dsp.inner( z, P @ ( cp.multiply(y,cp.exp(x) - q0 @ cp.exp(x)) ) )
-    f1 = p2 @ ( cp.multiply(y,cp.exp(x) - q0 @ cp.exp(x)) )
+    f = dsp.inner( z, P @ ( cp.multiply(y,cp.exp(x)) - q0 @ cp.multiply(y,cp.exp(x)) ) )
+    f1 = p2 @ ( cp.multiply(y,cp.exp(x)) - q0 @ cp.multiply(y,cp.exp(x)) )
     rho = pa2 @ cp.power(cp.abs(z),alpha)
 
-    constraints = [z >= -1, z<= 10, y>=-10, y<=10]
+    constraints = [z >= -1]
 
     for i in range(C): 
         constraints.append(p0 @ cp.maximum( cp.multiply(x2,z)-(lamp[i]-1), 0 ) <= Phi_u[i])
