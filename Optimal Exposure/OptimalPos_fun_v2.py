@@ -51,7 +51,7 @@ def OptimalPos(
 
     obj = dsp.MinimizeMaximize(rho+f+f1)
     prob = dsp.SaddlePointProblem(obj, constraints)
-    prob.solve(solver = cp.CVXOPT, verbose = verbose)  # solves the problem
+    prob.solve(solver = cp.CLARABEL, max_iter = 500, tol_infeas_abs = 1e-5, tol_feas = 1e-5, min_terminate_step_length = 1e-5, verbose = verbose)  # solves the problem
 
     print(prob.value)
     return y.value

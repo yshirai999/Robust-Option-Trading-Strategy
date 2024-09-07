@@ -23,7 +23,7 @@ TT = length(a);
 pythonpath = "OptimalPos_fun_v2.py";
 
 %% Constraints
-C = 30;
+C = 75;
 lamp = linspace(1.1,2,C);
 lamn = linspace(0.1,0.9,C);
 a = 2;
