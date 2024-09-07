@@ -18,7 +18,7 @@ parmm=[cpv bpv ypv cnv bnv ynv];
 
 TT = length(a);
 
-%% Path to python file
+%% Path to OptimalPos_fun file
 
 pythonpath = "OptimalPos_fun_v2.py";
 
@@ -35,7 +35,7 @@ for i=1:C
     Phi_u(i) = Phiup(a,c,gam,lamp(i));
 end
 Phi_l = Phitil(b,c,lamn);
-eps = 1;
+eps = 0.05;
 
 % Rebate
 alpha = 1.2;
@@ -73,9 +73,10 @@ for tt = 3%1:TT/2
     
     xp = x(x>0);
     xn = x(x<0);
-
+    
+    eta = [0,0];
     fun = @(eta)NA(cp,M,eta(1),yp,cn,G,eta(2),yn,xp,xn,x,delta);
-    eta = fminunc(fun,[0,0]);
+    eta = fminunc(fun,eta);
     
     M_eta = M+eta(1);
     G_eta = G+eta(2); %ensuring long stock and inverse stock cannot be scaled up indefinitely.
@@ -96,9 +97,16 @@ for tt = 3%1:TT/2
     cnq = params(10);
     Gq = 1/params(11);
     ynq = params(12);
+
+    eta = [0,0];
+    fun = @(eta)NA(cpq,Mq,eta(1),ypq,cnq,Gq,eta(2),ynq,xp,xn,x,delta);
+    eta = fminunc(fun,eta);
     
-    q0 = [(cnq).*((-xn).^(-ynq-1)).*exp(Gq*xn).*(xn<-eps)*delta,...
-          (cpq).*(xp.^(-ypq-1)).*exp(-Mq*xp).*(xp>eps)*delta]; %Estimated price to unwound the position in two weeks. 
+    Mqt = Mq+eta(1);
+    Gqt = Gq+eta(2);
+
+    q0 = [(cnq).*((-xn).^(2-ynq-1)).*exp(Gqt*xn)*delta,...
+          (cpq).*(xp.^(2-ypq-1)).*exp(-Mqt*xp)*delta]; %Estimated price to unwound the position in two weeks. 
 
     % load python.exe
     pyenv('Version',...

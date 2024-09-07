@@ -39,8 +39,8 @@ def OptimalPos(
 
 #     f = dsp.inner( z, P @ ( MM @ y - q0 @ MM @ y) )
 #     f1 = (p2) @ (MM @ y - q0 @ MM @ y)
-    f = dsp.inner( z, P @ ( cp.multiply(y,cp.exp(x)) - q0 @ cp.multiply(y,cp.exp(x)) ) )
-    f1 = p2 @ ( cp.multiply(y,cp.exp(x)) - q0 @ cp.multiply(y,cp.exp(x)) )
+    f = dsp.inner( z, P @ ( cp.multiply(y,cp.exp(x)-1) - q0 @ cp.multiply(y,cp.exp(x)-1) ) )
+    f1 = p2 @ ( cp.multiply(y,cp.exp(x)-1) - q0 @ cp.multiply(y,cp.exp(x)-1) )
     rho = pa2 @ cp.power(cp.abs(z),alpha)
 
     constraints = [z >= -1]
@@ -51,7 +51,7 @@ def OptimalPos(
 
     obj = dsp.MinimizeMaximize(rho+f+f1)
     prob = dsp.SaddlePointProblem(obj, constraints)
-    prob.solve(verbose = verbose)  # solves the problem
+    prob.solve(solver = cp.CVXOPT, verbose = verbose)  # solves the problem
 
     print(prob.value)
     return y.value
