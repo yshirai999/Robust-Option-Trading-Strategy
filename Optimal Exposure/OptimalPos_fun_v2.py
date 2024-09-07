@@ -34,16 +34,20 @@ def OptimalPos(
 
     MM = np.transpose(MM)
 
-    y = cp.Variable(1)
+    
     z = cp.Variable(N)
 
+#     y = cp.Variable(K)
 #     f = dsp.inner( z, P @ ( MM @ y - q0 @ MM @ y) )
 #     f1 = (p2) @ (MM @ y - q0 @ MM @ y)
+    
+    y = cp.Variable(1)
     f = dsp.inner( z, P @ ( cp.multiply(y,cp.exp(x)-1) - q0 @ cp.multiply(y,cp.exp(x)-1) ) )
     f1 = p2 @ ( cp.multiply(y,cp.exp(x)-1) - q0 @ cp.multiply(y,cp.exp(x)-1) )
+
     rho = pa2 @ cp.power(cp.abs(z),alpha)
 
-    constraints = [z >= -1]
+    constraints = [z >= -x2inv]
 
     for i in range(C): 
         constraints.append(p0 @ cp.maximum( cp.multiply(x2,z)-(lamp[i]-1), 0 ) <= Phi_u[i])
