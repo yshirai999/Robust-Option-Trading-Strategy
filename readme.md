@@ -32,7 +32,7 @@
   - $P_k$ denotes the $2^{k}\times 2^{k}$ diagonal matrix with diagonal elements given by $\delta p_{X}(x_j)$, $j=1,...,2^k$,
   - $\mathbf{p}$ and $\mathbf{q}$ are the probability mass of $X^k_T$ under the statistical and the risk neutral measure respectively
   - $\mathbf{y}$, $\mathbf{x}$ and $\mathbf{z}$ are vectors in $\mathbb{R}^{2^k}$ composed of all possible values of $Y^k$, $X^k$ and $Z^k$
-- This formulation seems to fit the functions available in the DSP extension of CVXPY
+- This formulation can be expressed through the functions available in the DSP extension of CVXPY
 
 ## Disciplined Saddle Programming
 
