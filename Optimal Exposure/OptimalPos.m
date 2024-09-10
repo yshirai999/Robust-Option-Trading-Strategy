@@ -23,7 +23,7 @@ TT = length(a);
 pythonpath = "OptimalPos_fun_v2.py";
 
 %% Constraints
-C = 5;
+C = 500;
 lamp = linspace(1,2,C);
 lamn = linspace(0.8,1,C);
 a = 2;
@@ -60,7 +60,7 @@ end
 
 %% Optimization
 
-for tt = 3%1:TT/2
+for tt = 1%1:TT/2
     % BCGMY
     params = [parmm(2*tt-1,:),parmm(2*tt,:)];
     
@@ -98,6 +98,13 @@ for tt = 3%1:TT/2
     Gq = 1/params(11);
     ynq = params(12);
 
+    cpq = cp;
+    Mq = M;
+    ypq = yp;
+    cnq = cn;
+    Gq = G;
+    ynq = yn;
+
     eta = [0,0];
     fun = @(eta)NA(cpq,Mq,eta(1),ypq,cnq,Gq,eta(2),ynq,xp,xn,x,delta);
     eta = fminunc(fun,eta);
@@ -105,6 +112,9 @@ for tt = 3%1:TT/2
     Mqt = Mq+eta(1);
     Gqt = Gq+eta(2);
 
+    Mqt = M_eta;
+    Gqt = G_eta;
+    
     q0 = [(cnq).*((-xn).^(2-ynq-1)).*exp(Gqt*xn)*delta,...
           (cpq).*(xp.^(2-ypq-1)).*exp(-Mqt*xp)*delta]; %Estimated price to unwound the position in two weeks. 
 
@@ -213,6 +223,7 @@ function phi = Phitil(b,c,lam)
     lamp = lam(lam<1);
     phi(lam<1) = -(1-lamp).*(log((1-lamp)/b)/c)-(b/c)*(1 - (1-lamp)/b );
     phi(lam==1) = -b/c;
+    phi(lam==0) = (log(b)+1-b)/c;
 end
 
 function phi = Phiup(a,c,gam,lam)
