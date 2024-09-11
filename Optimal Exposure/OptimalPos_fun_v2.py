@@ -37,13 +37,13 @@ def OptimalPos(
     
     z = cp.Variable(N)
 
-    y = cp.Variable(K)
-    f = dsp.inner( z, P @ ( MM @ y - q0 @ MM @ y) )
-    f1 = (p2) @ (MM @ y - q0 @ MM @ y)
+#     y = cp.Variable(K)
+#     f = dsp.inner( z, P @ ( MM @ y - q0 @ MM @ y) )
+#     f1 = (p2) @ (MM @ y - q0 @ MM @ y)
     
-#     y = cp.Variable(1)
-#     f = dsp.inner( z, P @ ( cp.multiply(y,cp.exp(x)-1) - q0 @ cp.multiply(y,cp.exp(x)-1) ) )
-#     f1 = p2 @ ( cp.multiply(y,cp.exp(x)-1) - q0 @ cp.multiply(y,cp.exp(x)-1) )
+    y = cp.Variable(1)
+    f = dsp.inner( z, P @ ( cp.multiply(y,cp.exp(x)-1) - q0 @ cp.multiply(y,cp.exp(x)-1) ) )
+    f1 = p2 @ ( cp.multiply(y,cp.exp(x)-1) - q0 @ cp.multiply(y,cp.exp(x)-1) )
     
 #     f = z@ P @ ( MM @ cp.exp(x) - q0 @ MM @ cp/exp(x))
 #     f1 = (p2) @ (MM @ cp.exp(x) - q0 @ MM @ cp.exp(x))

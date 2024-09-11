@@ -23,7 +23,7 @@ TT = length(a);
 pythonpath = "MUF.py";
 
 %% Constraints
-C = 300;
+C = 500;
 lamp = linspace(1,2,C);
 lamn = linspace(0.8,1,C);
 a = 2;
@@ -42,12 +42,12 @@ alpha = 1.2;
 
 %% Discretization 
 
-K = 50; % discretization of y
-N = 1000; %discretization of z
+K = 40;   % discretization of y
+N = 500; %discretization of z
 X = [-1,1];
 x = linspace(X(1),X(2),N);
 delta = (X(2)-X(1))/N;
-y = exp(x);
+y = exp(x)-1;
 x2 = x.*x;
 x2inv = 1./x2;
 
@@ -62,8 +62,8 @@ y0 = MM\y';
 
 %% Optimization
 kappaN = 10;
-kappamax = 1e10;
-kappamin = 1e6;
+kappamax = 1;
+kappamin = 10;
 kappa = linspace(kappamin,kappamax,kappaN);
 res = zeros(size(kappa));
 
@@ -82,8 +82,8 @@ for tt = 1%1:TT/2
     xn = x(x<0);
     
     eta = [0,0];
-    fun = @(eta)NA(cp,M,eta(1),yp,cn,G,eta(2),yn,xp,xn,x,delta);
-    eta = fminunc(fun,eta);
+%     fun = @(eta)NA(cp,M,eta(1),yp,cn,G,eta(2),yn,xp,xn,x,delta);
+%     eta = fminunc(fun,eta);
     
     M_eta = M+eta(1);
     G_eta = G+eta(2); %ensuring long stock and inverse stock cannot be scaled up indefinitely.
@@ -113,8 +113,8 @@ for tt = 1%1:TT/2
     ynq = yn;
 
     eta = [0,0];
-    fun = @(eta)NA(cpq,Mq,eta(1),ypq,cnq,Gq,eta(2),ynq,xp,xn,x,delta);
-    eta = fminunc(fun,eta);
+%     fun = @(eta)NA(cpq,Mq,eta(1),ypq,cnq,Gq,eta(2),ynq,xp,xn,x,delta);
+%     eta = fminunc(fun,eta);
     
     Mqt = Mq+eta(1);
     Gqt = Gq+eta(2);
@@ -165,7 +165,7 @@ for tt = 1%1:TT/2
             K = K,...
             C = C,...
             alpha = alpha,...
-            verbose = 'False');
+            verbose ='False');
             %res = A*transpose(double(res));
     
     %     try
@@ -199,6 +199,7 @@ for tt = 1%1:TT/2
 
 end
 
+% 9734626800
 
 %% Visualization
 

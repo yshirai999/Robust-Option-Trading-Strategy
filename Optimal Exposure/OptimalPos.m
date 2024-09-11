@@ -25,7 +25,7 @@ pythonpath = "OptimalPos_fun_v2.py";
 %% Constraints
 C = 500;
 lamp = linspace(1,2,C);
-lamn = linspace(0.8,1,C);
+lamn = linspace(0.0,1,C);
 a = 2;
 b = 1;
 c = 0.5;
@@ -43,7 +43,7 @@ alpha = 1.2;
 %% Discretization 
 
 K = 50; % discretization of y
-N = 1000; %discretization of z
+N = 500; %discretization of z
 X = [-1,1];
 x = linspace(X(1),X(2),N);
 delta = (X(2)-X(1))/N;
@@ -75,8 +75,8 @@ for tt = 1%1:TT/2
     xn = x(x<0);
     
     eta = [0,0];
-    fun = @(eta)NA(cp,M,eta(1),yp,cn,G,eta(2),yn,xp,xn,x,delta);
-    eta = fminunc(fun,eta);
+%     fun = @(eta)NA(cp,M,eta(1),yp,cn,G,eta(2),yn,xp,xn,x,delta);
+%     eta = fminunc(fun,eta);
     
     M_eta = M+eta(1);
     G_eta = G+eta(2); %ensuring long stock and inverse stock cannot be scaled up indefinitely.
@@ -106,8 +106,8 @@ for tt = 1%1:TT/2
     ynq = yn;
 
     eta = [0,0];
-    fun = @(eta)NA(cpq,Mq,eta(1),ypq,cnq,Gq,eta(2),ynq,xp,xn,x,delta);
-    eta = fminunc(fun,eta);
+%     fun = @(eta)NA(cpq,Mq,eta(1),ypq,cnq,Gq,eta(2),ynq,xp,xn,x,delta);
+%     eta = fminunc(fun,eta);
     
     Mqt = Mq+eta(1);
     Gqt = Gq+eta(2);
@@ -115,8 +115,8 @@ for tt = 1%1:TT/2
     Mqt = M_eta;
     Gqt = G_eta;
     
-    q0 = [(cnq).*((-xn).^(2-ynq-1)).*exp(Gqt*xn)*delta,...
-          (cpq).*(xp.^(2-ypq-1)).*exp(-Mqt*xp)*delta]; %Estimated price to unwound the position in two weeks. 
+    q0 = [(cnq).*((-xn).^(-ynq-1)).*exp(Gqt*xn)*delta,...
+          (cpq).*(xp.^(-ypq-1)).*exp(-Mqt*xp)*delta]; %Estimated price to unwound the position in two weeks. 
 
     % load python.exe
     pyenv('Version',...
