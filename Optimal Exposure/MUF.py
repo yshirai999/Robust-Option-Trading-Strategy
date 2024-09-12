@@ -19,14 +19,16 @@ def MUF(
     x2inv: np.ndarray,
     N: float,
     K: float,
-    C: float,
+    Cu: float,
+    Cl: float,
     alpha: float,
     verbose: str
     ):
 
     N = int(N)
     K = int(K)
-    C = int(C)
+    Cu = int(Cu)
+    Cl = int(Cl)
     
     verbose = verbose == 'True'
 
@@ -44,9 +46,10 @@ def MUF(
 
     constraints = [z >= -x2inv]
 
-    for i in range(C): 
-        constraints.append(p0 @ cp.maximum( cp.multiply(x2,z)-(lamp[i]-1), 0 ) <= Phi_u[i])
+    for i in range(Cl): 
         constraints.append(p0 @ cp.maximum( (1-lamn[i])-cp.multiply(x2,z), 0 ) <= -Phi_l[i])
+    for i in range(Cu): 
+        constraints.append(p0 @ cp.maximum( cp.multiply(x2,z)-(lamp[i]-1), 0 ) <= Phi_u[i])
 
     obj = cp.Minimize(rho+f+f1)
     prob = cp.Problem(obj, constraints)

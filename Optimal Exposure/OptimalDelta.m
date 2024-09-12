@@ -25,7 +25,7 @@ pythonpath = "MUF.py";
 %% Constraints
 C = 500;
 lamp = linspace(1,2,C);
-lamn = linspace(0.8,1,C);
+lamn = linspace(0.7,1,C);
 a = 2;
 b = 1;
 c = 0.5;
@@ -42,8 +42,8 @@ alpha = 1.2;
 
 %% Discretization 
 
-K = 40;   % discretization of y
-N = 500; %discretization of z
+K = 100;   % discretization of y
+N = 250; %discretization of z
 X = [-1,1];
 x = linspace(X(1),X(2),N);
 delta = (X(2)-X(1))/N;
@@ -61,7 +61,7 @@ end
 y0 = MM\y';
 
 %% Optimization
-kappaN = 20;
+kappaN = 50;
 kappamax = 1e2;
 kappamin = -5e3;
 kappa = linspace(kappamin,kappamax,kappaN);

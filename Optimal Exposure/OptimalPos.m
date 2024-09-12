@@ -1,6 +1,6 @@
 clear
 clc
-close all
+%close all
 
 %% Data
 
@@ -23,15 +23,16 @@ TT = length(a);
 pythonpath = "OptimalPos_fun_v2.py";
 
 %% Constraints
-C = 500;
-lamp = linspace(1,2,C);
-lamn = linspace(0.0,1,C);
+Cu = 1000;
+Cl = 1000;
+lamp = linspace(1,2,Cu);
+lamn = linspace(0.8,1,Cl);
 a = 2;
 b = 1;
 c = 0.5;
 gam = 0.75;
-Phi_u = zeros(C,1);
-for i=1:C
+Phi_u = zeros(Cu,1);
+for i=1:Cu
     Phi_u(i) = Phiup(a,c,gam,lamp(i));
 end
 Phi_l = Phitil(b,c,lamn);
@@ -42,8 +43,8 @@ alpha = 1.2;
 
 %% Discretization 
 
-K = 50; % discretization of y
-N = 500; %discretization of z
+K = 100; % discretization of y
+N = 250; %discretization of z
 X = [-1,1];
 x = linspace(X(1),X(2),N);
 delta = (X(2)-X(1))/N;
@@ -154,7 +155,8 @@ for tt = 1%1:TT/2
         x2inv = x2inv_py,...
         N = N,...
         K = K,...
-        C = C,...
+        Cu = Cu,...
+        Cl = Cl,...
         alpha = alpha,...
         verbose = 'True');
         res = A*transpose(double(res));
