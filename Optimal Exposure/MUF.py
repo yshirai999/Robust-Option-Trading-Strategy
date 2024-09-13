@@ -40,14 +40,14 @@ def MUF(
     z = cp.Variable(N)
 
     f = z @ P @ ( MM @ y - q0 @ MM @ y)
-    f1 = (p2) @ (MM @ y - q0 @ MM @ y)
+    f1 = 0#(p2) @ (MM @ y - q0 @ MM @ y)
     
     rho = pa2 @ cp.power(cp.abs(z),alpha)
 
     constraints = [z >= -x2inv]
 
     for i in range(Cl): 
-        constraints.append(p0 @ cp.maximum( (1-lamn[i])-cp.multiply(x2,z), 0 ) <= -Phi_l[i])
+        constraints.append(p0 @ cp.maximum( -(1-lamn[i])-cp.multiply(x2,z), 0 ) <= -Phi_l[i])
     for i in range(Cu): 
         constraints.append(p0 @ cp.maximum( cp.multiply(x2,z)-(lamp[i]-1), 0 ) <= Phi_u[i])
 
@@ -58,4 +58,4 @@ def MUF(
 
     return prob.value
 
-z = MUF(pa2,p2,p4,p0,q0,MM,lamp,lamn,Phi_u,Phi_l,y,x2,x2inv,N,K,C,alpha,verbose)
+z = MUF(pa2,p2,p4,p0,q0,MM,lamp,lamn,Phi_u,Phi_l,y,x2,x2inv,N,K,Cu,Cl,alpha,verbose)

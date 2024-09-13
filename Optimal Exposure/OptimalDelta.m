@@ -23,15 +23,21 @@ TT = length(a);
 pythonpath = "MUF.py";
 
 %% Constraints
-C = 500;
-lamp = linspace(1,2,C);
-lamn = linspace(0.7,1,C);
+Cu = 500;
+Cl = 500;
+lamp = linspace(1,2,Cu);
+lamn1 = linspace(0,1,Cl);
+lamn1 = (1-(1-lamn1).^(1+0.75))/2;
+lamn2 = linspace(0,1,Cl);
+lamn2 = 0.5+(lamn2).^(1+0.75)/2;
+lamn = [lamn1,lamn2];
+lamn = linspace(0.8,1,Cl);
 a = 2;
 b = 1;
 c = 0.5;
 gam = 0.75;
-Phi_u = zeros(C,1);
-for i=1:C
+Phi_u = zeros(Cu,1);
+for i=1:Cu
     Phi_u(i) = Phiup(a,c,gam,lamp(i));
 end
 Phi_l = Phitil(b,c,lamn);
@@ -63,7 +69,7 @@ y0 = MM\y';
 %% Optimization
 kappaN = 50;
 kappamax = 1e2;
-kappamin = -5e3;
+kappamin = -3e3;
 kappa = linspace(kappamin,kappamax,kappaN);
 res = zeros(size(kappa));
 
@@ -163,7 +169,8 @@ for tt = 1%1:TT/2
             x2inv = x2inv_py,...
             N = N,...
             K = K,...
-            C = C,...
+            Cu = Cu,...
+            Cl = Cl,...
             alpha = alpha,...
             verbose ='False');
             %res = A*transpose(double(res));
@@ -207,7 +214,7 @@ end
 figure()
 plot(kappa,res)
 fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\OptimalDerivativePos\Figures');
-str=strcat('OptimalDelta_SPY','_',num2str(kappamin),'_',num2str(kappamax),'_',num2str(kappaN),'_',num2str(C));
+str=strcat('OptimalDelta_SPY','_',num2str(kappamin),'_',num2str(kappamax),'_',num2str(kappaN),'_',num2str(Cu),'_',num2str(Cl));
 fname=str;
 saveas(gcf, fullfile(fpath, fname), 'epsc');
 

@@ -23,10 +23,15 @@ TT = length(a);
 pythonpath = "OptimalPos_fun_v2.py";
 
 %% Constraints
-Cu = 1000;
-Cl = 1000;
+Cu = 500;
+Cl = 500;
 lamp = linspace(1,2,Cu);
-lamn = linspace(0.8,1,Cl);
+% lamn1 = linspace(0,1,Cl);
+% lamn1 = (1-(1-lamn1).^(1+0.75))/2;
+% lamn2 = linspace(0,1,Cl);
+% lamn2 = 0.5+(lamn2).^(1+0.75)/2;
+% lamn = [lamn1,lamn2];
+lamn = linspace(0.1,1,Cl);
 a = 2;
 b = 1;
 c = 0.5;
@@ -43,7 +48,7 @@ alpha = 1.2;
 
 %% Discretization 
 
-K = 100; % discretization of y
+K = 50; % discretization of y
 N = 250; %discretization of z
 X = [-1,1];
 x = linspace(X(1),X(2),N);
@@ -61,7 +66,7 @@ end
 
 %% Optimization
 
-for tt = 1%1:TT/2
+for tt = 1%:TT/2
     % BCGMY
     params = [parmm(2*tt-1,:),parmm(2*tt,:)];
     
@@ -75,21 +80,20 @@ for tt = 1%1:TT/2
     xp = x(x>0);
     xn = x(x<0);
     
-    eta = [0,0];
+%     eta = [0,0];
 %     fun = @(eta)NA(cp,M,eta(1),yp,cn,G,eta(2),yn,xp,xn,x,delta);
 %     eta = fminunc(fun,eta);
+%     M_eta = M+eta(1);
+%     G_eta = G+eta(2); %ensuring long stock and inverse stock cannot be scaled up indefinitely.
     
-    M_eta = M+eta(1);
-    G_eta = G+eta(2); %ensuring long stock and inverse stock cannot be scaled up indefinitely.
-    
-    pa2 = [(cn).*((-xn).^(2*alpha-yn-1)).*exp(G_eta*xn)*delta,...
-           (cp).*(xp.^(2*alpha-yp-1)).*exp(-M_eta*xp)*delta];
-    p2 = [(cn).*((-xn).^(2-yn-1)).*exp(G_eta*xn)*delta,...
-          (cp).*(xp.^(2-yp-1)).*exp(-M_eta*xp)*delta];
-    p4 = [(cn).*((-xn).^(4-yn-1)).*exp(G_eta*xn)*delta,...
-          (cp).*(xp.^(4-yp-1)).*exp(-M_eta*xp)*delta];
-    p0 = [(cn).*((-xn).^(-yn-1)).*exp(G_eta*xn).*(xn<-eps)*delta,...
-          (cp).*(xp.^(-yp-1)).*exp(-M_eta*xp).*(xp>eps)*delta];
+    pa2 = [(cn).*((-xn).^(2*alpha-yn-1)).*exp(G*xn)*delta,...
+           (cp).*(xp.^(2*alpha-yp-1)).*exp(-M*xp)*delta];
+    p2 = [(cn).*((-xn).^(2-yn-1)).*exp(G*xn)*delta,...
+          (cp).*(xp.^(2-yp-1)).*exp(-M*xp)*delta];
+    p4 = [(cn).*((-xn).^(4-yn-1)).*exp(G*xn)*delta,...
+          (cp).*(xp.^(4-yp-1)).*exp(-M*xp)*delta];
+    p0 = [(cn).*((-xn).^(-yn-1)).*exp(G*xn).*(xn<-eps)*delta,...
+          (cp).*(xp.^(-yp-1)).*exp(-M*xp).*(xp>eps)*delta];
     
     % cost
     cpq = params(7);
@@ -106,18 +110,17 @@ for tt = 1%1:TT/2
     Gq = G;
     ynq = yn;
 
-    eta = [0,0];
+%     eta = [0,0];
 %     fun = @(eta)NA(cpq,Mq,eta(1),ypq,cnq,Gq,eta(2),ynq,xp,xn,x,delta);
 %     eta = fminunc(fun,eta);
+%     Mqt = Mq+eta(1);
+%     Gqt = Gq+eta(2);
+%     Mqt = M_eta;
+%     Gqt = G_eta;
     
-    Mqt = Mq+eta(1);
-    Gqt = Gq+eta(2);
-
-    Mqt = M_eta;
-    Gqt = G_eta;
-    
-    q0 = [(cnq).*((-xn).^(-ynq-1)).*exp(Gqt*xn)*delta,...
-          (cpq).*(xp.^(-ypq-1)).*exp(-Mqt*xp)*delta]; %Estimated price to unwound the position in two weeks. 
+    q0 = [(cnq).*((-xn).^(-ynq-1)).*exp(Gq*xn)*delta,...
+          (cpq).*(xp.^(-ypq-1)).*exp(-Mq*xp)*delta]; %Estimated price to unwound the position in two weeks. 
+    q0 = q0/(q0*x2');
 
     % load python.exe
     pyenv('Version',...
@@ -159,7 +162,7 @@ for tt = 1%1:TT/2
         Cl = Cl,...
         alpha = alpha,...
         verbose = 'True');
-        res = A*transpose(double(res));
+        res = MM*transpose(double(res));
 
 %     try
 %         res = pyrunfile("OptimalPos_fun.py","z",...
@@ -181,7 +184,7 @@ for tt = 1%1:TT/2
 %             C = C,...
 %             alpha = alpha,...
 %             verbose = 'False');
-%             res = A*transpose(double(res));
+%             res = MM*transpose(double(res));
 %     catch
 %         fprintf('For tt = %d, the solver CLARABEL failed\n', tt)
 %         res = zeros(size(N,1));
@@ -191,15 +194,15 @@ end
 
 %% Visualization
 
-% % Optimal position
-% figure()
+% Optimal position
+figure()
 % X = [-0.3,0.3];
-% xlim = ([log(W)+X(1), log(W)+X(2)]);
-% plot(x,res)
-% fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\OptimalDerivativePos\Figures');
-% str=strcat('OptimalSolution_SPY');
-% fname=str;
-% saveas(gcf, fullfile(fpath, fname), 'epsc');
+% xlim = ([X(1), X(2)]);
+plot(x,res)
+fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\OptimalDerivativePos\Figures');
+str=strcat('OptimalSolution_SPY');
+fname=str;
+saveas(gcf, fullfile(fpath, fname), 'epsc');
 
 % Constraints
 % zz = z.value
