@@ -1,7 +1,7 @@
 # Optimal Spot Slide
 
 - The following problem is here considered:
-  - $\max_{f_1,...,f_N}U(w_1f_1(X_T)+...+w_Nf_N(X_T)-\mathbb{E}[w_1f_1(X_T)+...+w_Nf_N(X_T)])$
+  - $\max_{w_1,...,w_N}U(w_1f_1(X_T)+...+w_Nf_N(X_T)-\mathbb{E}[w_1f_1(X_T)+...+w_Nf_N(X_T)])$
 - It is assumed that, denoting by $\Phi$ the Fenchel conjugate of a given distortion $\Psi$,
   - $U:L^{\infty}\rightarrow \mathbb{R}$ is defined by
     - $U(Y) := \min_{Z\in\mathcal{M}}\mathbb{E}[ZY]-\alpha(Z)$ for $Y\in L^{\infty}$,
