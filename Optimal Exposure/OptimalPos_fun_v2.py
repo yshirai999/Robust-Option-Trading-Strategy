@@ -8,7 +8,8 @@ def OptimalPos(
     p2: np.ndarray,
     p4: np.ndarray,
     p0: np.ndarray,
-    q0: np.ndarray,
+    p0inv2: np.ndarray,
+    q0inv2: np.ndarray,
     MM: np.ndarray,
     lamp: np.ndarray,
     lamn: np.ndarray,
@@ -40,7 +41,7 @@ def OptimalPos(
     z = cp.Variable(N) #Note this variable is such that Z=1+zx^2
 
     y = cp.Variable(K)
-    f = dsp.inner( z, P @ ( MM @ y - q0 @ MM @ y) )
+    f = dsp.inner( z, P @ ( MM @ y - p0inv2 @ MM @ y) )
     f1 = 0#(p2) @ (MM @ y - q0 @ MM @ y)
     
 #     y = cp.Variable(1)
@@ -68,4 +69,4 @@ def OptimalPos(
     # print(prob.value)
     return y.value
 
-z = OptimalPos(pa2,p2,p4,p0,q0,MM,lamp,lamn,Phi_u,Phi_l,x,x2,x2inv,N,K,Cu,Cl,alpha,verbose)
+z = OptimalPos(pa2,p2,p4,p0,p0inv2,q0inv2,MM,lamp,lamn,Phi_u,Phi_l,x,x2,x2inv,N,K,Cu,Cl,alpha,verbose)

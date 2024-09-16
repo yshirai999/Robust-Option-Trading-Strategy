@@ -104,6 +104,13 @@ for tt = 1%:TT/2
     Gq = 1/params(11);
     ynq = params(12);
 
+    cpq = cp;
+    Mq = M;
+    ypq = yp;
+    cnq = cn;
+    Gq = G;
+    ynq = yn;
+
 %     eta = [0,0];
 %     fun = @(eta)NA(cpq,Mq,eta(1),ypq,cnq,Gq,eta(2),ynq,xp,xn,x,delta);
 %     eta = fminunc(fun,eta);
