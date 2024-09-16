@@ -27,7 +27,7 @@ def OptimalPos(
 
     N = int(N)
     K = int(K)
-    Cu = int(Cu)
+    Cu = int(Cu)    
     Cl = int(Cl)
     
     verbose = verbose == 'True'
@@ -53,7 +53,8 @@ def OptimalPos(
     
     constraints.append(y>=-5000)
     constraints.append(y<=5000)
-
+    
+    #constraints.append( q0 @ MM @ y == 0 )
     for i in range(Cl): 
         constraints.append(p0 @ cp.maximum( -(1-lamn[i])-cp.multiply(x2,z), 0 ) <= -Phi_l[i])
     for i in range(Cu): 

@@ -92,8 +92,8 @@ for tt = 1%:TT/2
           (cp).*(xp.^(2-yp-1)).*exp(-M*xp)*delta];
     p4 = [(cn).*((-xn).^(4-yn-1)).*exp(G*xn)*delta,...
           (cp).*(xp.^(4-yp-1)).*exp(-M*xp)*delta];
-    p0 = [(cn).*((-xn).^(-yn-1)).*exp(G*xn).*(xn<-eps)*delta,...
-          (cp).*(xp.^(-yp-1)).*exp(-M*xp).*(xp>eps)*delta];
+    p0 = [(cn).*((-xn).^(-yn-1)).*exp(G*xn)*delta,...
+          (cp).*(xp.^(-yp-1)).*exp(-M*xp)*delta];
     
     % cost
     cpq = params(7);
@@ -102,13 +102,6 @@ for tt = 1%:TT/2
     cnq = params(10);
     Gq = 1/params(11);
     ynq = params(12);
-
-    cpq = cp;
-    Mq = M;
-    ypq = yp;
-    cnq = cn;
-    Gq = G;
-    ynq = yn;
 
 %     eta = [0,0];
 %     fun = @(eta)NA(cpq,Mq,eta(1),ypq,cnq,Gq,eta(2),ynq,xp,xn,x,delta);
@@ -120,7 +113,7 @@ for tt = 1%:TT/2
     
     q0 = [(cnq).*((-xn).^(-ynq-1)).*exp(Gq*xn)*delta,...
           (cpq).*(xp.^(-ypq-1)).*exp(-Mq*xp)*delta]; %Estimated price to unwound the position in two weeks. 
-    q0 = q0/(q0*x2');
+    %q0 = q0/(q0*x2');
 
     % load python.exe
     pyenv('Version',...
