@@ -32,9 +32,9 @@ lamp = linspace(1,2,Cu);
 % lamn2 = 0.5+(lamn2).^(1+0.75)/2;
 % lamn = [lamn1,lamn2];
 lamn = linspace(0,1,Cl);
-a = 2;
+a = 5;
 b = 1;
-c = 0.5;
+c = 0.2;
 gam = 0.75;
 Phi_u = zeros(Cu,1);
 for i=1:Cu
@@ -49,8 +49,8 @@ alpha = 1.2;
 %% Discretization 
 
 K = 50; % discretization of y
-N = 250; %discretization of z
-X = [-1,1];
+N = 250; % discretization of z
+X = [-2,2];
 x = linspace(X(1),X(2),N);
 delta = (X(2)-X(1))/N;
 x2 = x.*x;
@@ -66,9 +66,12 @@ end
 
 %% Optimization
 
+y = cell(TT/2);
+z = cell(TT/2);
+
 for tt = 1%:TT/2
     % BCGMY
-    params = [parmm(2*tt-1,:),parmm(2*tt,:)];
+    params = [parmm(2*tt,:),parmm(2*tt+1,:)];
     
     cp = params(1);
     M = 1/params(2);
@@ -127,7 +130,7 @@ for tt = 1%:TT/2
     p4_py = py.numpy.array(p4.');
     p0_py = py.numpy.array(p0.');
     p0inv2_py = py.numpy.array(p0inv2.');
-    q0inv2_py = py.numpy.array(q0inv2.');
+    q0_py = py.numpy.array(q0.');
     MM_py = py.numpy.array(MM.');
     lamp_py = py.numpy.array(lamp.');
     lamn_py = py.numpy.array(lamn.');
@@ -143,7 +146,7 @@ for tt = 1%:TT/2
         p4 = p4_py,...
         p0 = p0_py,...
         p0inv2 = p0inv2_py,...
-        q0inv2 = q0inv2_py,...
+        q0 = q0_py,...
         MM = MM_py,...
         lamp = lamp_py,...
         lamn= lamn_py,...
@@ -158,7 +161,9 @@ for tt = 1%:TT/2
         Cl = Cl,...
         alpha = alpha,...
         verbose = 'True');
-        res = MM*transpose(double(res));
+
+        y{tt} = MM*transpose(double(res{1}));
+        z{tt} = double(res{2});
 
 %     try
 %         res = pyrunfile("OptimalPos_fun.py","z",...
@@ -193,8 +198,17 @@ end
 % Optimal position
 figure()
 % X = [-0.3,0.3];
-% xlim = ([X(1), X(2)]);
-plot(x,res)
+plot(x,y{tt})
+xlim([-0.1 0.1]);
+fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\OptimalDerivativePos\Figures');
+str=strcat('OptimalSolution_SPY');
+fname=str;
+saveas(gcf, fullfile(fpath, fname), 'epsc');
+
+figure()
+% X = [-0.3,0.3];
+plot(x,1+z{tt}.*x2)
+xlim([-0.1 0.1]);
 fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\OptimalDerivativePos\Figures');
 str=strcat('OptimalSolution_SPY');
 fname=str;

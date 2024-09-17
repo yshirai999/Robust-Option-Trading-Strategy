@@ -9,7 +9,7 @@ def OptimalPos(
     p4: np.ndarray,
     p0: np.ndarray,
     p0inv2: np.ndarray,
-    q0inv2: np.ndarray,
+    q0: np.ndarray,
     MM: np.ndarray,
     lamp: np.ndarray,
     lamn: np.ndarray,
@@ -36,26 +36,24 @@ def OptimalPos(
     P = np.diag(p4)
 
     MM = np.transpose(MM)
-
     
     z = cp.Variable(N) #Note this variable is such that Z=1+zx^2
 
     y = cp.Variable(K)
     f = dsp.inner( z, P @ ( MM @ y - p0inv2 @ MM @ y) )
-    f1 = 0#(p2) @ (MM @ y - q0 @ MM @ y)
+    f1 = (p2) @ (MM @ y)
     
 #     y = cp.Variable(1)
 #     f = dsp.inner( z, P @ ( cp.multiply(y,cp.exp(x)-1) - q0 @ cp.multiply(y,cp.exp(x)-1) ) )
 #     f1 = 0#p2 @ ( cp.multiply(y,cp.exp(x)-1) - q0 @ cp.multiply(y,cp.exp(x)-1) )
 
-    rho = pa2 @ cp.power(cp.abs(z),alpha)
-
+    rho = pa2 @ cp.power(cp.abs(z),alpha) + p0 @ cp.power(z+x2inv,-4)
     constraints = [z >= -x2inv]
     
     constraints.append(y>=-5000)
     constraints.append(y<=5000)
     
-    #constraints.append( q0 @ MM @ y == 0 )
+    constraints.append( q0 @ MM @ y == 0 )
     for i in range(Cl): 
         constraints.append(p0 @ cp.maximum( -(1-lamn[i])-cp.multiply(x2,z), 0 ) <= -Phi_l[i])
     for i in range(Cu): 
@@ -67,6 +65,6 @@ def OptimalPos(
     #prob.solve(solver = cp.SCS, verbose = verbose)
 
     # print(prob.value)
-    return y.value
+    return y.value, z.value
 
-z = OptimalPos(pa2,p2,p4,p0,p0inv2,q0inv2,MM,lamp,lamn,Phi_u,Phi_l,x,x2,x2inv,N,K,Cu,Cl,alpha,verbose)
+z = OptimalPos(pa2,p2,p4,p0,p0inv2,q0,MM,lamp,lamn,Phi_u,Phi_l,x,x2,x2inv,N,K,Cu,Cl,alpha,verbose)
