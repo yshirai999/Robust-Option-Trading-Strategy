@@ -7,82 +7,45 @@
 - The problem addressed in this paper is then that of finding optimal exposures on a single underlying stock.
 
 - Our approach differs from the existing literature in a several ways.
-  - The focusis on the instantaneous jump $x$ in the stock, which leads us to consider a possibly infinite Levy density rather than a probability measure
+  - The focus here is on the instantaneous jump $x$ in the stock, which leads us to consider a possibly infinite Levy density rather than a probability measure
   - We assuming that the options that give rise to the exposure have a fixed maturity of 15 days, and that they will be unwound in 10 days. Thus, the base case scenario for the density of the instantaenous jump $x$ in the log price is the one calibrated from option prices with 5-day expiration.
   - We then maximize the expected exposure over all scenarios obtained by distorting the base density according to the MINMAXVAR distortion function $\Psi$.
-  - Recognizing that some such scenarios are less likely than others, a rebate is added that is zero for the base scenario and is higher for scenarios that are more far away from the base one.
+  - As some of such scenarios are less likely than others, we add to the expected exposure under each scenarios a rebate that is zero for the base scenario and is higher for scenarios that are more far away from the base one.
 
-- This leads us to consider the following maximization problem:
-  - $\max_{w_1,...,w_N}U(w_1f_1(X_T)+...+w_Nf_N(X_T)-\mathbb{E}[w_1f_1(X_T)+...+w_Nf_N(X_T)])$
-- It is assumed that, denoting by $\Phi$ the Fenchel conjugate of a given distortion $\Psi$,
-  - $U:L^{\infty}\rightarrow \mathbb{R}$ is defined by
-    - $U(Y) := \min_{Z\in\mathcal{M}}\mathbb{E}[ZY]-\alpha(Z)$ for $Y\in L^{\infty}$,
-    - $\mathcal{M} := \{Z\in L^1_+:\mathbb{E}[Z]=1,\mathbb{E}[(Z-a)^+]\leq \Phi(a), a > 0\}$
-    - $\alpha(Z) := \mathbb{E}[\theta Z^{\alpha}+(1-\theta)Z^{-\beta}]$
-  - $f_1,...,f_N$ are the respective payoff functions of $N$ contingent claims (e.g. options) each with a fixed maturity $T$ (here, 7 days) on the same underlying asset
-  - The random variable $X_T$ is the log returns of the underlying asset, and its distribution is assumed to follow the bilateral gamma distribution with parameters $(b_p,c_p,b_n,c_n)$ and $(\tilde{b}_p,\tilde{c}_p,\tilde{b}_n,\tilde{c}_n)$ under the statistical probability $\mathbb{P}$ and the risk neutral probability $\mathbb{Q}$ respectively
-  - The parameters $\theta,\alpha,\beta$ may be estimated based on performance of the resulting trading strategy
+- These considerations result in the following formulation of the maximization problem:
+  $\begin{align*}
+    &\max_y\min_z \int_{\mathbb{R}}y(x)z(x)x^4m(x)dx-\frac{\int_{\mathbb{R}}y(x)m(x)x^2dx}{\int_{\mathbb{R}}m(x)x^2dx}\int_{\mathbb{R}}m(x)x^2dx+\int_{\mathbb{R}}|z(x)|^{\alpha}dx\\
+    &\text{s.t. }z(x)\geq -\frac{1}{x^2}\\
+    & \int_{\mathbb{R}}\left(z(x)x^2-(\lambda-1)\right)^+m(x)dx\leq \Phi(\lambda), \ \lambda\geq 1\\
+    & \int_{\mathbb{R}}\left(-z(x)x^2-(1-\lambda)\right)^+m(x)dx\leq \tilde{\Phi}(\lambda), \ \lambda\leq 1\\
+    & \int_{\mathbb{R}}y(x)\tilde{m}x^2dx=0
+  \end{align*}$
+  
+- The densities $m$ and $\tilde{m}$ are the bilateral CGMY densities calibrated to the 5 and 15 day maturity options respectively.  
+
+- The distortion and rebate parameters are set to specific values but may be obtained via backtesting.
+
+- For a full description of the problem set up we refer to our accompanying paper.
 
 ## Formulation for discipline saddle programming
 
-- To use the dsp extension of CVXPY we need to discretize the problem
+- To use the dsp extension of CVXPY we need to discretize the maximization problem
 
-- Given a random variable $Y$, real numbers $M_0\leq M_1$ and an positive integer $k$, define, for $j = 0,1,...,2^k-1$,
-  - $y_j := M_0+\delta j$
-  - $A_j := [y_j,y_{j+1}]$
-  - $\delta := \frac{M_1-M_0}{2^k-1}$
-  - $Y^k := \sum_{j}y_j\mathbb{1}_{A_j}(Y)$
-
-- Then, letting $p_Y$ denote the density of $Y$ under $\mathbb{P}$, $\mathbb{P}\left(Y^k=y_j\right)\approx \delta p_Y\left(y_j\right)$
-
-- One is then led to consider the problem
-  - $\max_{\mathbf{w} \in \mathbb{R}^N} \min_{Z^k\in\mathcal{M}} \mathbb{E}[Z^k(w_1f_1(X^k_T)+...+w_Nf_N(X^k_T)-We^{X^k_T}) - \mathbb{E}^{\mathbb{Q}}[w_1f_1(X_T)+...+w_Nf_N(X_T)]] + \alpha(Z^k)$
-
-- Next, assuming all strikes are traded for maturity $T$, we consider the problem,
-  - $\max_{\mathbf{q}^T\mathbf{y}=W} \min_{\mathbf{z}\in\mathcal{M}} \mathbf{z}^TP_k(\mathbf{y}-We^{\mathbf{x}}) - \mathbf{p}^T(\theta \mathbf{z}^{\alpha}+(1-\theta)\mathbf{z}^{-\beta})$
+- Here we consider the problem
+  $\begin{align}
+    &\max_{\vec{y}\in\R^K}\min_{\vec{z}\in\R^N} \vec{z}^TP_4\left(M\vec{y}-\mathbf{p}_0^T \vec{y}\right)+\vec{p}_2^T\vec{y} +\vec{p}_{2\alpha}^T|\vec{z}|^{\alpha},\\
+    & \text{ s.t. } \vec{z}\geq 0\\
+    & \qquad \vec{p}_0^T\max(\vec{x}_2^T\vec{z}-(\lambda-1),0)\leq \Phi(\lambda), \ \lambda\geq 1\\
+    & \qquad \vec{p}_0^T\max(1-\lambda-\vec{x}_2^T\vec{z},0)\leq -\tilde{\Phi}(\lambda), \ 0\leq \lambda\leq 1\\
+    & \qquad \vec{q}_0^TM\vec{y} = 0.
+  \end{equation}$
 - where:
-  - $P_k$ denotes the $2^{k}\times 2^{k}$ diagonal matrix with diagonal elements given by $\delta p_{X}(x_j)$, $j=1,...,2^k$,
-  - $\mathbf{p}$ and $\mathbf{q}$ are the probability mass of $X^k_T$ under the statistical and the risk neutral measure respectively
-  - $\mathbf{y}$, $\mathbf{x}$ and $\mathbf{z}$ are vectors in $\mathbb{R}^{2^k}$ composed of all possible values of $Y^k$, $X^k$ and $Z^k$
-- This formulation seems to fit the functions available in the DSP extension of CVXPY
-
-## Disciplined Saddle Programming
-
-- The github repository for the dsp extension of CVXPY is available at <https://github.com/cvxgrp/dsp>
-
-- Relevant references on which the repo is based on are:
-  - <https://arxiv.org/abs/2301.13427>
-  - <https://arxiv.org/abs/2102.01002>
-
-Below is a simple example that computes the solution to problem (2) in dimension $k = 2$
-
-```bash
-import dsp
-import cvxpy as cp
-import numpy as np
-
-y = cp.Variable(2)
-z = cp.Variable(2)
-x = np.array([10,3])
-p = np.array([0.3,0.7])
-q = np.array([0.5,0.5])
-a = 1
-Phi = 3
-P = np.array([[p[0], 0], [0, p[1]]])
-theta = 0.5
-alpha = 0.2
-beta = 0.3
-W = 1
-
-f = dsp.inner(z, P @ (y - cp.multiply(W,cp.exp(x))))
-rho = p @ (cp.multiply(theta, cp.power(z,alpha))+cp.multiply(1-theta,cp.power(z,-beta)))
-obj = dsp.MinimizeMaximize(rho-f)
-constraints = [q @ y == W, p @ z == 1, z >= 0, p @ cp.maximum(z-a,0) <= Phi]
-
-obj = dsp.MinimizeMaximize(f)
-prob = dsp.SaddlePointProblem(obj, constraints)
-prob.solve()  # solves the problem
-```
+  - $P_k$ denotes the $N\times N$ diagonal matrix with diagonal elements given by $\delta m(x_j)x_j^2$, $j=1,...,2^k$,
+  - $\mathbf{p}_{2\alpha}$, $\mathbf{p}_{2}$ are the Levy densities multiplied by $x^4$, $x^{2\alpha}$ and $x^2$ at the 5-day maturity
+  - $\mathbf{p}_0$ and $\mathbf{q}_0$ are the Levy densities at the 5-day and 15-daymaturity
+  - $\mathbf{y}$, $\mathbf{x}$ and $\mathbf{z}$ are vectors in $\mathbb{R}^{N}$
+- This formulation of the problem satisfies the requirements to be solved via disciplined saddle programming, for which we refer to the github repository available at <https://github.com/cvxgrp/dsp> and the accompnying papers <https://arxiv.org/abs/2301.13427>
+  - <https://arxiv.org/abs/2102.01002>.
 
 ## Additional Remarks
 
