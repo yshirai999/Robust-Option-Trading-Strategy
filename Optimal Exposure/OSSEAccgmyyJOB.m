@@ -57,10 +57,10 @@ Phin = -Phitil(b,c,lamn);
 %% Exposure maximization
 xx=nonzeros((-.5:.02:.5));
 nx=length(xx);
-verbose='False';
+verbose='True';
 ExposureAcceptability=struct;
-for id=1:10%ndays
-      %disp(id);
+for id=10%ndays
+      disp(id);
       matp1=DSPEAMinputs1nug(id).measuresp;
       matn1=DSPEAMinputs1nug(id).measuresn;
       matp2=DSPEAMinputs2nug(id).measuresp;
@@ -128,13 +128,11 @@ for id=1:10%ndays
         z=res{2}; zz=double(z);
         ExposureAcceptability(id).pos=yy;
         ExposureAcceptability(id).mc=[xxxxx zz];
-        fprintf('Day %d solved\n', id)
     catch ME    
         % y=res{1}; yy=double(y);
         % z=res{2}; zz=double(z);
         % ExposureAcceptability(id).pos=yy;
         % ExposureAcceptability(id).mc=[xxxxx zz];
-        fprintf('Day %d failed\n', id)
     end
 end
 

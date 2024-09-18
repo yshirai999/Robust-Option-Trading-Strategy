@@ -1,6 +1,18 @@
 # Optimal Spot Slide
 
-- The following problem is here considered:
+- A desk holding option positions on a single underlying stock with a current price of $S_0$ constructs a spot slide $\zeta(x)$ which represents the logarithm of the aggregate value of all positions were the market price of the underlying instantaneously jumps to the level $S=S_0e^x$.
+
+- Such calculations are now routinely mandated by Central Banks monitoring the health of the banking system. Existing exposures may be altered to match optimal ones, or actions may be taken to move in such directions.
+
+- The problem addressed in this paper is then that of finding optimal exposures on a single underlying stock.
+
+- Our approach differs from the existing literature in a several ways.
+  - The focusis on the instantaneous jump $x$ in the stock, which leads us to consider a possibly infinite Levy density rather than a probability measure
+  - We assuming that the options that give rise to the exposure have a fixed maturity of 15 days, and that they will be unwound in 10 days. Thus, the base case scenario for the density of the instantaenous jump $x$ in the log price is the one calibrated from option prices with 5-day expiration.
+  - We then maximize the expected exposure over all scenarios obtained by distorting the base density according to the MINMAXVAR distortion function $\Psi$.
+  - Recognizing that some such scenarios are less likely than others, a rebate is added that is zero for the base scenario and is higher for scenarios that are more far away from the base one.
+
+- This leads us to consider the following maximization problem:
   - $\max_{w_1,...,w_N}U(w_1f_1(X_T)+...+w_Nf_N(X_T)-\mathbb{E}[w_1f_1(X_T)+...+w_Nf_N(X_T)])$
 - It is assumed that, denoting by $\Phi$ the Fenchel conjugate of a given distortion $\Psi$,
   - $U:L^{\infty}\rightarrow \mathbb{R}$ is defined by
