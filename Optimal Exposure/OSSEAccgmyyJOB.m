@@ -59,7 +59,8 @@ xx=nonzeros((-.5:.02:.5));
 nx=length(xx);
 verbose='False';
 ExposureAcceptability=struct;
-for id=1:10%ndays
+ndays_job = 10;
+for id=1:ndays_job
       %disp(id);
       matp1=DSPEAMinputs1nug(id).measuresp;
       matn1=DSPEAMinputs1nug(id).measuresn;
@@ -128,19 +129,32 @@ for id=1:10%ndays
         z=res{2}; zz=double(z);
         ExposureAcceptability(id).pos=yy;
         ExposureAcceptability(id).mc=[xxxxx zz'];
-        figure
-        plot(xxxxx,A*yy')
-        xlim([-0.1,0.1])
         fprintf('Day %d solved',id)
     catch ME    
-        % y=res{1}; yy=double(y);
-        % z=res{2}; zz=double(z);
-        % ExposureAcceptability(id).pos=yy;
-        % ExposureAcceptability(id).mc=[xxxxx zz];
         fprintf('Day %d failed',id)
     end
 end
 
+%% Visualization
+close all
+ndays_job = 10;
+for id=1:ndays_job
+    try
+        yy = ExposureAcceptability(id).pos;
+        figure
+        plot(xxxxx,A*yy')
+        xlim([-0.1,0.1])
+        fprintf('Day %d solved\n',id)
+        fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\OptimalDerivativePos\Maximin\OptimalExposure\Plots');
+        str=strcat('OptimalExposure_OSS2_SPY');
+        fname=str;
+        saveas(gcf, fullfile(fpath, fname), 'epsc');
+    catch ME    
+        fprintf('Day %d failed\n',id)
+    end
+end
+
+%% Deprecated
       % % rebate calculation
       % rhov=(abs(zz).^alpha.*wwa);
       % 
@@ -157,9 +171,6 @@ end
       % %-100<yy<100
       % % zz>=-1;
        
-
-
-
 %% Consider
 % DeltaExposure=struct;
 % for id=1:ndays
