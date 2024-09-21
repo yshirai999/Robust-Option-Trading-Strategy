@@ -145,8 +145,8 @@ for id=1:ndays_job
         plot(xxxxx,A*yy')
         xlim([-0.1,0.1])
         fprintf('Day %d solved\n',id)
-        fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\OptimalDerivativePos\Maximin\OptimalExposure\Plots');
-        str=strcat('OptimalExposure_OSS2_SPY');
+        fpath=('C:\Users\yoshi\OneDrive\Desktop\Research\OptimalDerivativePos\Maximin\Optimal Exposure\Plots');
+        str=strcat('OptimalExposure_OSS2_SPY',num2str(id));
         fname=str;
         saveas(gcf, fullfile(fpath, fname), 'epsc');
     catch ME    
