@@ -12,7 +12,7 @@
   - We then maximize the expected exposure over all scenarios obtained by distorting the base density according to the MINMAXVAR distortion function $\Psi$.
   - As some of such scenarios are less likely than others, we add to the expected exposure under each scenarios a rebate that is zero for the base scenario and is higher for scenarios that are more far away from the base one.
 
-- These considerations result in the following formulation of the maximization problem: $\begin{align} max_y min_z\end{align}$
+- These considerations result in the following formulation of the maximization problem: $ \max_y \min_z$
   
 - The densities $m$ and $\tilde{m}$ are the bilateral CGMY densities calibrated to the 5 and 15 day maturity options respectively.  
 
