@@ -40,9 +40,9 @@ $$\begin{align}&\max_{y\in\mathbb{R}^K}\min_{z\in\mathbb{R}^N}z^TP_4\left(My-p_0
 
 - where:
   - $P_k$ denotes the $N\times N$ diagonal matrix with diagonal elements given by $\delta m(x_j)x_j^2$, $j=1,...,2^k$,
-  - $\mathbf{p}_{2\alpha}$, $\mathbf{p}_{2}$ are the Levy densities multiplied by $x^4$, $x^{2\alpha}$ and $x^2$ at the 5-day maturity
-  - $\mathbf{p}_0$ and $\mathbf{q}_0$ are the Levy densities at the 5-day and 15-daymaturity
-  - $\mathbf{y}$, $\mathbf{x}$ and $\mathbf{z}$ are vectors in $\mathbb{R}^{N}$
+  - $p_{2\alpha}$, $p_{2}$ are the Levy densities multiplied by $x^4$, $x^{2\alpha}$ and $x^2$ at the 5-day maturity
+  - $p_0$ and $q_0$ are the Levy densities at the 5-day and 15-daymaturity
+  - $y$, $x$ and $z$ are vectors in $\mathbb{R}^{N}$
 - This formulation of the problem satisfies the requirements to be solved via disciplined saddle programming, for which we refer to the github repository available at <https://github.com/cvxgrp/dsp> and the accompnying papers <https://arxiv.org/abs/2301.13427>
   - <https://arxiv.org/abs/2102.01002>.
 
