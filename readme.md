@@ -32,7 +32,11 @@ $$\begin{align}&\max_y \min_z\int_{\mathbb{R}}y(x)z(x)x^4m(x)dx-\frac{\int_{\mat
 
 - Here we consider the problem
 
-$$\begin{align}&\max_{y\in\R^K}\min_{z\in\R^N}z^TP_4\left(My-p_0^Ty\right)+p_2^T y +p_{2\alpha}^T |z|^{\alpha}\end{align}$$
+$$\begin{align}&\max_{y\in\mathbb{R}^K}\min_{z\in\mathbb{R}^N}z^TP_4\left(My-p_0^Ty\right)+p_2^T y +p_{2\alpha}^T |z|^{\alpha}\\
+    & \text{ s.t. } z\geq 0\\
+    & \qquad p_0^T\max(x_2^Tz-(\lambda-1),0)\leq \Phi(\lambda), \ \lambda\geq 1\\
+    & \qquad p_0^T\max(1-\lambda-x_2^Tz,0)\leq -\tilde{\Phi}(\lambda), \ 0\leq \lambda\leq 1\\
+    & \qquad q_0^TMy = 0.\end{align}$$
 
 - where:
   - $P_k$ denotes the $N\times N$ diagonal matrix with diagonal elements given by $\delta m(x_j)x_j^2$, $j=1,...,2^k$,
