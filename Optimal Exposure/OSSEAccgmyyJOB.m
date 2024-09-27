@@ -20,18 +20,6 @@ alpha=1.2;
 data = load('DSPEAMinputsnug.mat');
 DSPEAMinputs1nug=data.DSPEAMinputs1nug;
 DSPEAMinputs2nug=data.DSPEAMinputs2nug;
-% for id=1:ndays
-%     disp(id);
-%     par1=parmm(1+2*(id-1),:);
-%     par2=parmm(2+2*(id-1),:);
-%     [matp1,matn1]=OSSEAccgmyyMeasures(par1,alpha);
-%     [matp2, matn2]=OSSEAccgmyyMeasures(par2,alpha);
-%     DSPEAMinputs1nug(id).measuresp=matp1;
-%     DSPEAMinputs1nug(id).measuresn=matn1;
-%     DSPEAMinputs2nug(id).measuresp=matp2;
-%     DSPEAMinputs2nug(id).measuresn=matn2;
-% end
-% save('C:\Users\yoshi\OneDrive\Desktop\Research\OptimalDerivativePos\Maximin\Optimal Exposure\DSPEAMinputsnug.mat','DSPEAMinputs1nug','DSPEAMinputs2nug');
 
 %% Distortion
 lamp=(1:.002:2);
@@ -45,14 +33,6 @@ for i=1:nlp
     Phip(i) = Phiup(a,c,gm,lamp(i));
 end
 Phin = -Phitil(b,c,lamn);
-% Phip=zeros(1,nlp);
-% for ic=1:nlp
-%       lda=lamp(ic);
-%       val=MeasureDistortionGPlusDualPhi(lda,[b c gm]);
-%       Phip(ic)=val;
-% end
-% Phin=MeasureDistortionGMinusDualPhi(lamn,[b c gm]);
-% Phin(nln)=b/c;
 
 %% Exposure maximization
 xx=nonzeros((-.5:.02:.5));
@@ -61,7 +41,7 @@ verbose='False';
 ExposureAcceptability=struct;
 ndays_job = 10;
 for id=1:ndays_job
-      %disp(id);
+      disp(id);
       matp1=DSPEAMinputs1nug(id).measuresp;
       matn1=DSPEAMinputs1nug(id).measuresn;
       matp2=DSPEAMinputs2nug(id).measuresp;

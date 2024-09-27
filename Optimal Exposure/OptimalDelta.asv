@@ -34,11 +34,17 @@ end
 Phin = -Phitil(b,c,lamn);
 
 %% Discretization 
-xx=nonzeros((-.5:.02:.5));
-nx=length(xx);
+K = 100;   % discretization of y
+N = 250; %discretization of z
+X = [-1,1];
+x = linspace(X(1),X(2),N);
+delta = (X(2)-X(1))/N;
+y = exp(x)-1;
 x2 = x.*x;
 x2inv = 1./x2;
-I = eye(nx);
+
+xx = linspace(x(1),x(end),K);
+I = eye(K);
 MM = zeros(N,K);
 for j=1:K
     ej = I(:,j);
