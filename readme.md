@@ -32,12 +32,7 @@ $$\begin{align}&\max_y \min_z\int_{\mathbb{R}}y(x)z(x)x^4m(x)dx-\frac{\int_{\mat
 
 - Here we consider the problem
 
-$$\begin{align}&\max_{\vec{y}\in\R^K}\min_{\vec{z}\in\R^N} \vec{z}^TP_4\left(M\vec{y}-\mathbf{p}_0^T \vec{y}\right)+\vec{p}_2^T\vec{y} +\vec{p}_{2\alpha}^T|\vec{z}|^{\alpha},\\
-    & \text{ s.t. } \vec{z}\geq 0\\
-    & \qquad \vec{p}_0^T\max(\vec{x}_2^T\vec{z}-(\lambda-1),0)\leq \Phi(\lambda), \ \lambda\geq 1\\
-    & \qquad \vec{p}_0^T\max(1-\lambda-\vec{x}_2^T\vec{z},0)\leq -\tilde{\Phi}(\lambda), \ 0\leq \lambda\leq 1\\
-    & \qquad \vec{q}_0^TM\vec{y} = 0.
-  \end{align}$$
+$$\begin{align}&\max_{\vec{y}\in\R^K}\min_{\vec{z}\in\R^N} \vec{z}^TP_4\left(M\vec{y}-\mathbf{p}_0^T \vec{y}\right)+\vec{p}_2^T\vec{y} +\vec{p}_{2\alpha}^T|\vec{z}|^{\alpha}\end{align}$$
 
 - where:
   - $P_k$ denotes the $N\times N$ diagonal matrix with diagonal elements given by $\delta m(x_j)x_j^2$, $j=1,...,2^k$,
