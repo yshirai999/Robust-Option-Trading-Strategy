@@ -43,8 +43,7 @@ $$\begin{align}&\max_{y\in\mathbb{R}^K}\min_{z\in\mathbb{R}^N}z^TP_4\left(My-p_0
   - $p_{2\alpha}$, $p_{2}$ are the Levy densities multiplied by $x^4$, $x^{2\alpha}$ and $x^2$ at the 5-day maturity
   - $p_0$ and $q_0$ are the Levy densities at the 5-day and 15-daymaturity
   - $y$, $x$ and $z$ are vectors in $\mathbb{R}^{N}$
-- This formulation of the problem satisfies the requirements to be solved via disciplined saddle programming, for which we refer to the github repository available at <https://github.com/cvxgrp/dsp> and the accompnying papers <https://arxiv.org/abs/2301.13427>
-  - <https://arxiv.org/abs/2102.01002>.
+- This formulation of the problem may be solved using the dsp extension of cvxpy (see <https://github.com/cvxgrp/dsp> and the accompnying papers <https://arxiv.org/abs/2301.13427> and <https://arxiv.org/abs/2102.01002>).
 
 ## Additional Remarks
 
