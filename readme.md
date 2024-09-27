@@ -14,7 +14,7 @@
 
 - These considerations result in the following formulation of the maximization problem:
   $\begin{align}
-    &\max_y\min_z \int_{\mathbb{R}}y(x)z(x)x^4m(x)dx-\frac{\int_{\mathbb{R}}y(x)m(x)x^2dx}{\int_{\mathbb{R}}m(x)x^2dx}\int_{\mathbb{R}}m(x)x^2dx+\int_{\mathbb{R}}|z(x)|^{\alpha}dx
+    \max_y\min_z
   \end{align}$
   
 - The densities $m$ and $\tilde{m}$ are the bilateral CGMY densities calibrated to the 5 and 15 day maturity options respectively.  
