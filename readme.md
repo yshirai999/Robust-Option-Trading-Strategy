@@ -13,9 +13,9 @@
   - As some of such scenarios are less likely than others, we add to the expected exposure under each scenarios a rebate that is zero for the base scenario and is higher for scenarios that are more far away from the base one.
 
 - These considerations result in the following formulation of the maximization problem:
-  $\begin{align}
+  $$\begin{align}
     \max_y\min_z
-  \end{align}$
+  \end{align}$$
   
 - The densities $m$ and $\tilde{m}$ are the bilateral CGMY densities calibrated to the 5 and 15 day maturity options respectively.  
 
