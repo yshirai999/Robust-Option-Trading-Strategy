@@ -2,7 +2,7 @@ import dsp
 import cvxpy as cp
 import numpy as np
 
-def OptimalExposure(
+def OptimalDelta(
     wwa: np.ndarray,
     ww1: np.ndarray,
     ww2: np.ndarray,
@@ -25,6 +25,8 @@ def OptimalExposure(
     ):
     ky = int(ky)
     kz = int(kz)
+    
+   
 
     nlp = int(nlp)
     nln=int(nln)
@@ -32,6 +34,7 @@ def OptimalExposure(
     verbose = verbose == 'True'
 
     P = np.diag(ww2)
+  #  Q = np.diag(ww1)
     A = np.transpose(A)
     y = cp.Variable(ky)
     z = cp.Variable(kz)
@@ -41,11 +44,15 @@ def OptimalExposure(
     costnum=ww0 @ xxxxx2
     posnum=costy/costnum
 
+    #g = posnum * (ww2 @ z)
+
+    #g=dsp.inner(z, P @ Q @ (A @ y) )
+  
     f1 = ww1 @ (A @ y)
 
     f = dsp.inner( z, P @ ( (A @ y) - ww0 @ (A @ y)/costnum) )
     rho = wwa @ cp.power(cp.abs(z),alpha)
-    
+    # rho=p @ (cp.multiply(1/(1+theta), cp.power(z,(1+theta)))+cp.multiply(1/(1-theta),cp.power(z,(1-theta)))) + 2*theta/(1-theta**2)
     constraints = [ z >= -xxxxx2b,  y >= -5000, y <= 5000, wwq @ (A @ y)==0]
     for i in range(nlp):
             constraints.append(ww0 @ cp.maximum(cp.multiply(z,xxxxx2) -(lamp[i]-1),0) <= Phip[i])
@@ -57,4 +64,4 @@ def OptimalExposure(
 
     return y.value , z.value
 
-q = OptimalExposure(wwa,ww1,ww2,ww0,wwq,lamp,lamn,Phip,Phin,A,xxxxx,xxxxx2,xxxxx2b,alpha,ky,kz,nlp,nln,verbose)
+q = OptimalDelta(wwa,ww1,ww2,ww0,wwq,lamp,lamn,Phip,Phin,A,xxxxx,xxxxx2,xxxxx2b,alpha,ky,kz,nlp,nln,verbose)
