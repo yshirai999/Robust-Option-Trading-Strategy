@@ -14,7 +14,7 @@
 
 - These considerations result in the following formulation of the maximization problem:
 
-$$\begin{align}&\max_y \min_z\int_{\mathbb{R}}y(x)z(x)x^4m(x)dx-\frac{\int_{\mathbb{R}}y(x)m(x)x^2dx}{\int_{\mathbb{R}}m(x)x^2dx}int_{\mathbb{R}}m(x)x^2dx+\int_{\mathbb{R}}|z(x)|^{\alpha}dx\\
+$$\begin{align}&\max_y \min_z\int_{\mathbb{R}}y(x)z(x)x^4m(x)dx-\frac{\int_{\mathbb{R}}y(x)m(x)x^2dx}{\int_{\mathbb{R}}m(x)x^2dx}\int_{\mathbb{R}}m(x)x^2dx+\int_{\mathbb{R}}|z(x)|^{\alpha}dx\\
     &\text{s.t. }z(x)\geq -\frac{1}{x^2}\\
     & \int_{\mathbb{R}}\left(z(x)x^2-(\lambda-1)\right)^+m(x)dx\leq \Phi(\lambda), \ \lambda\geq 1\\
     & \int_{\mathbb{R}}\left(-z(x)x^2-(1-\lambda)\right)^+m(x)dx\leq \tilde{\Phi}(\lambda), \ \lambda\leq 1\\
