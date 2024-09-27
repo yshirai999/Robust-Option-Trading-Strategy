@@ -1,3 +1,4 @@
+
 # Optimal Spot Slide
 
 - A desk holding option positions on a single underlying stock with a current price of $S_0$ constructs a spot slide $\zeta(x)$ which represents the logarithm of the aggregate value of all positions were the market price of the underlying instantaneously jumps to the level $S=S_0e^x$.
@@ -45,8 +46,6 @@ $$\begin{align}&\max_{y\in\mathbb{R}^K}\min_{z\in\mathbb{R}^N}z^TP_4\left(My-p_0
   - $y$, $x$ and $z$ are vectors in $\mathbb{R}^{N}$
 - This formulation of the problem may be solved using the dsp extension of cvxpy (see <https://github.com/cvxgrp/dsp> and the accompnying papers <https://arxiv.org/abs/2301.13427> and <https://arxiv.org/abs/2102.01002>).
 
-## Additional Remarks
+## Additional remarks
 
-- The MATLAB folder contains a matlab m file, which solves the problem considered by running a python script
-
-- As this only supports a previous version of Python, do not forget to match your vscode python version with that of the conda environment (v3.10.14)
+- Required python version is v3.10.14
