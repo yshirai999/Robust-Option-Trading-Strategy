@@ -17,7 +17,7 @@ beta = 0.25;
 
 %% Densities
 
-load('C:\Users\yoshi\OneDrive\Desktop\Research\OptimalDerivativePos\Maximin\Data\OSS2RNSOMoutput.mat')
+load('C:\Users\yoshi\OneDrive\Desktop\Research\OSS\Maximin\Data\OSS2RNSOMoutput.mat')
 
 n = length(ODPBG(1).dens1(:,1));
 T = length(ODPBG);
