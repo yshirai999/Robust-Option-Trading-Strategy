@@ -1,15 +1,23 @@
 # Portfolio Theory with Monetary Preferences
 
 - The following problem is here considered:
-  - $U(w_1f_1(X_T)+...+w_Nf_N(X_T)-\mathbb{E}[w_1f_1(X_T)+...+w_Nf_N(X_T)])$
+  - $\max_f U(f(X)-\mathbb{E}[f(X)])$
 - It is assumed that, denoting by $\Phi$ the Fenchel conjugate of a given distortion $\Psi$,
   - $U:L^{\infty}\rightarrow \mathbb{R}$ is defined by
     - $U(Y) := \min_{Z\in\mathcal{M}}\mathbb{E}[ZY]-\alpha(Z)$ for $Y\in L^{\infty}$,
     - $\mathcal{M} := \{Z\in L^1_+:\mathbb{E}[Z]=1,\mathbb{E}[(Z-a)^+]\leq \Phi(a), a > 0\}$
     - $\alpha(Z) := \mathbb{E}[\theta Z^{\alpha}+(1-\theta)Z^{-\beta}]$
-  - $f_1,...,f_N$ are the respective payoff functions of $N$ contingent claims (e.g. options) each with a fixed maturity $T$ (here, 7 days) on the same underlying asset
-  - The random variable $X_T$ is the log returns of the underlying asset, and its distribution is assumed to follow the bilateral gamma distribution with parameters $(b_p,c_p,b_n,c_n)$ and $(\tilde{b}_p,\tilde{c}_p,\tilde{b}_n,\tilde{c}_n)$ under the statistical probability $\mathbb{P}$ and the risk neutral probability $\mathbb{Q}$ respectively
+  - The random variable $X$ is the log returns of an underlying risk which can be traded and is liquid
+  - The distribution of $X$ is assumed to follow the bilateral gamma distribution with parameters $(b_p,c_p,b_n,c_n)$ under the risk neutral probability $\mathbb{Q}$ 
   - The parameters $\theta,\alpha,\beta$ may be estimated based on performance of the resulting trading strategy
+
+## Idea
+- The functional $U$ is the infimum over a set of test measures that are equivalent to a base measure $\mathbb{Q}'$
+- Departures from $\mathbb{Q}'$ are penalized
+- The time at which $f(X)$ is sold is very short, say a day or so, in such a way that options' moneyness remains unchanged
+- Thus, if the underlying options traded have expiration, say, 5 days, then $\mathbb{Q}$ is the risk neutral measure calibrated to options expiring in 5 days
+- If the plan is to sell $f(X)$ in 1 day, then $\mathbb{Q}'$ is the risk neutral measure calibrated to options expiring in 4 days
+- The distortion of $\mathbb{Q}'$ is justfied because of fluctuations in tomorrow's risk neutral measure compared to today's
 
 ## Formulation for discipline saddle programming
 
@@ -32,48 +40,9 @@
   - $P_k$ denotes the $2^{k}\times 2^{k}$ diagonal matrix with diagonal elements given by $\delta p_{X}(x_j)$, $j=1,...,2^k$,
   - $\mathbf{p}$ and $\mathbf{q}$ are the probability mass of $X^k_T$ under the statistical and the risk neutral measure respectively
   - $\mathbf{y}$, $\mathbf{x}$ and $\mathbf{z}$ are vectors in $\mathbb{R}^{2^k}$ composed of all possible values of $Y^k$, $X^k$ and $Z^k$
-- This formulation seems to fit the functions available in the DSP extension of CVXPY
-
-## Disciplined Saddle Programming
 
 - The github repository for the dsp extension of CVXPY is available at <https://github.com/cvxgrp/dsp>
 
 - Relevant references on which the repo is based on are:
   - <https://arxiv.org/abs/2301.13427>
   - <https://arxiv.org/abs/2102.01002>
-
-Below is a simple example that computes the solution to problem (2) in dimension $k = 2$
-
-```bash
-import dsp
-import cvxpy as cp
-import numpy as np
-
-y = cp.Variable(2)
-z = cp.Variable(2)
-x = np.array([10,3])
-p = np.array([0.3,0.7])
-q = np.array([0.5,0.5])
-a = 1
-Phi = 3
-P = np.array([[p[0], 0], [0, p[1]]])
-theta = 0.5
-alpha = 0.2
-beta = 0.3
-W = 1
-
-f = dsp.inner(z, P @ (y - cp.multiply(W,cp.exp(x))))
-rho = p @ (cp.multiply(theta, cp.power(z,alpha))+cp.multiply(1-theta,cp.power(z,-beta)))
-obj = dsp.MinimizeMaximize(rho-f)
-constraints = [q @ y == W, p @ z == 1, z >= 0, p @ cp.maximum(z-a,0) <= Phi]
-
-obj = dsp.MinimizeMaximize(f)
-prob = dsp.SaddlePointProblem(obj, constraints)
-prob.solve()  # solves the problem
-```
-
-## Additional Remarks
-
-- The MATLAB folder contains a matlab m file, which solves the problem considered by running a python script
-
-- As this only supports a previous version of Python, do not forget to match your vscode python version with that of the conda environment (v3.10.14)
