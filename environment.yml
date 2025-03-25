@@ -1,0 +1,26 @@
+name: maximin-env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.9
+  - numpy
+  - pandas
+  - scipy
+  - matplotlib
+  - seaborn
+  - scikit-learn
+  - jupyterlab
+  - ipykernel
+  - tqdm
+  - requests
+  - pytest
+  - pyyaml
+  - networkx
+  - statsmodels
+  - sympy
+pip:
+  - dsp
+  - cvxpy
+
+# Note: Ensure Python is installed from python.org, not the Microsoft Store, to avoid permission issues.
