@@ -16,18 +16,14 @@
 ## Formulation for discipline saddle programming
 
 - To use the dsp extension of CVXPY we need to discretize the problem
-
 - Given a random variable $Y$, real numbers $M_0\leq M_1$ and an positive integer $k$, define, for $j = 0,1,...,2^k-1$,
   - $y_j := M_0+\delta j$
   - $A_j := [y_j,y_{j+1}]$
   - $\delta := \frac{M_1-M_0}{2^k-1}$
   - $Y^k := \sum_{j}y_j\mathbb{1}_{A_j}(Y)$
-
 - Then, letting $p_Y$ denote the density of $Y$ under $\mathbb{P}$, $\mathbb{P}\left(Y^k=y_j\right)\approx \delta p_Y\left(y_j\right)$
-
 - One is then led to consider the problem
   - $\max_{\mathbf{w} \in \mathbb{R}^N} \min_{Z^k\in\mathcal{M}} \mathbb{E}[Z^k(w_1f_1(X^k_T)+...+w_Nf_N(X^k_T)-We^{X^k_T}) - \mathbb{E}^{\mathbb{Q}}[w_1f_1(X_T)+...+w_Nf_N(X_T)]] + \alpha(Z^k)$
-
 - Next, assuming all strikes are traded for maturity $T$, we consider the problem,
   - $\max_{\mathbf{q}^T\mathbf{y}=W} \min_{\mathbf{z}\in\mathcal{M}} \mathbf{z}^TP_k(\mathbf{y}-We^{\mathbf{x}}) - \mathbf{p}^T(\theta \mathbf{z}^{\alpha}+(1-\theta)\mathbf{z}^{-\beta})$
 - where:
@@ -39,7 +35,6 @@
 ## Disciplined Saddle Programming
 
 - The github repository for the dsp extension of CVXPY is available at <https://github.com/cvxgrp/dsp>
-
 - Relevant references on which the repo is based on are:
   - <https://arxiv.org/abs/2301.13427>
   - <https://arxiv.org/abs/2102.01002>
@@ -47,7 +42,7 @@
 
 ## How to use the repo
 
+- The conda environment is saved in the folder maximin2, but no dsp and cvxpy are the only libraries needed apart from the usual ones
 - The data folder contains quantized bilateral gamma parameters, used as input to determine the set $\mathcal{M}$
 - The MATLAB folder contains a matlab m file, which solves the problem considered by running a python script which calls dsp
-
 - Supported python version is v3.10.14
