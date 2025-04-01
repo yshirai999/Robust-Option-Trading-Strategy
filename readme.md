@@ -50,4 +50,4 @@
 - The data folder contains quantized bilateral gamma parameters, used as input to determine the set $\mathcal{M}$
 - The MATLAB folder contains a matlab m file, which solves the problem considered by running a python script which calls dsp
 
-- Supporte python version is v3.10.14
+- Supported python version is v3.10.14
