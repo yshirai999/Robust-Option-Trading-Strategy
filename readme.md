@@ -1,6 +1,7 @@
 # Optimal Spot Slides
 
-- The following problem is here considered:
+- This repo analysis the problem of finding an optimal spot splide, i.e. how to maximize a portfolio of options written on single underlying asset with an infinitesimally small horizon
+- In essence, the following problem is here considered:
   - $U(w_1f_1(X_T)+...+w_Nf_N(X_T)-\mathbb{E}[w_1f_1(X_T)+...+w_Nf_N(X_T)])$
 - It is assumed that, denoting by $\Phi$ the Fenchel conjugate of a given distortion $\Psi$,
   - $U:L^{\infty}\rightarrow \mathbb{R}$ is defined by
@@ -10,6 +11,7 @@
   - $f_1,...,f_N$ are the respective payoff functions of $N$ contingent claims (e.g. options) each with a fixed maturity $T$ (here, 7 days) on the same underlying asset
   - The random variable $X_T$ is the log returns of the underlying asset, and its distribution is assumed to follow the bilateral gamma distribution with parameters $(b_p,c_p,b_n,c_n)$ and $(\tilde{b}_p,\tilde{c}_p,\tilde{b}_n,\tilde{c}_n)$ under the statistical probability $\mathbb{P}$ and the risk neutral probability $\mathbb{Q}$ respectively
   - The parameters $\theta,\alpha,\beta$ may be estimated based on performance of the resulting trading strategy
+  - For more details, see also the accompanying paper at https://acrobat.adobe.com/id/urn:aaid:sc:VA6C2:9b41cc8e-0b8a-4b44-a3de-ddadc902a368
 
 ## Formulation for discipline saddle programming
 
