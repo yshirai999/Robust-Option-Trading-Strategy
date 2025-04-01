@@ -32,24 +32,6 @@ def OptimalPos(
     for i in range(N): #range(len(a)):
         constraints.append(p @ cp.maximum(z-a[i],0) <= Phi[i])
 
-
-    '''
-    Note: too many constraints generate some problems in CVXPY, see https://github.com/cvxpy/cvxpy/issues/826
-    Because of this I have here limited the number of constraints. It can be seen that the solution z does satisfy the constraint.
-
-    A potential solution is suggested on github:
-    The problem is that when calculating the shape for scipy.sparse.csc_matrix, it always gets a negative value,
-    since the shape is numpy.int32 and if the shape is too large, we get overflow problem. The idea to solve it is very simple,
-    just convert it into numpy.int64.
-    So do the following steps:
-    1. find canonInterface.py in cvxpy\cvxcore\python and find get_problem_matrix function. you will see around 368line, use this
-    instead A = scipy.sparse.csc_matrix((V, (I, J)), shape=(np.int64(constr_length)*np.int64(var_length+1), param_size_plus_one))
-    2. find conic_solver.py in \cvxpy\reductions\solvers\conic_solvers and find format_constraints function. 
-    You will see around 225 line and use this instead:
-    restructured_A = 
-        restructured_A.reshape(np.int64(restruct_mat.shape[0]) * np.int64(problem.x.size + 1),problem.A.shape[1], order='F')
-    '''
-
     prob = dsp.SaddlePointProblem(obj, constraints)
     prob.solve()  # solves the problem
 
