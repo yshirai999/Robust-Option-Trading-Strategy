@@ -11,7 +11,7 @@
   - $f_1,...,f_N$ are the respective payoff functions of $N$ contingent claims (e.g. options) each with a fixed maturity $T$ (here, 7 days) on the same underlying asset
   - The random variable $X_T$ is the log returns of the underlying asset, and its distribution is assumed to follow the bilateral gamma distribution with parameters $(b_p,c_p,b_n,c_n)$ and $(\tilde{b}_p,\tilde{c}_p,\tilde{b}_n,\tilde{c}_n)$ under the statistical probability $\mathbb{P}$ and the risk neutral probability $\mathbb{Q}$ respectively
   - The parameters $\theta,\alpha,\beta$ may be estimated based on performance of the resulting trading strategy
-  - For more details, see also the accompanying paper at https://acrobat.adobe.com/id/urn:aaid:sc:VA6C2:9b41cc8e-0b8a-4b44-a3de-ddadc902a368
+  - For more details, see also the accompanying paper at [this link](https://acrobat.adobe.com/id/urn:aaid:sc:VA6C2:9b41cc8e-0b8a-4b44-a3de-ddadc902a368)
 
 ## Formulation for discipline saddle programming
 
@@ -39,10 +39,10 @@
   - <https://arxiv.org/abs/2301.13427>
   - <https://arxiv.org/abs/2102.01002>
 
-
 ## How to use the repo
 
-- The conda environment is saved in the folder maximin2, but no dsp and cvxpy are the only libraries needed apart from the usual ones
+- The conda environment can be created from the Environment.yml file
 - The data folder contains quantized bilateral gamma parameters, used as input to determine the set $\mathcal{M}$
 - The MATLAB folder contains a matlab m file, which solves the problem considered by running a python script which calls dsp
-- Supported python version is v3.10.14
+- Supported python version for MATLAB 2024b is v3.13
+- To run the matlab file directly from VSCode you can run `python -m pip install matlabengine==24.2.1` in the VSCode terminal.
