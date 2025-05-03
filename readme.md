@@ -10,7 +10,7 @@
   - $f_1,...,f_N$ are the respective payoff functions of $N$ contingent claims (e.g. options) each with a fixed maturity $T$ (here, 7 days) on the same underlying asset
   - The random variable $X_T$ is the log returns of the underlying asset, and its distribution is assumed to follow the bilateral gamma distribution with parameters $(b_p,c_p,b_n,c_n)$ and $(\tilde{b}_p,\tilde{c}_p,\tilde{b}_n,\tilde{c}_n)$ under the statistical probability $\mathbb{P}$ and the risk neutral probability $\mathbb{Q}$ respectively
   - The parameters $\theta,\alpha,\beta$ may be estimated based on performance of the resulting trading strategy
-  - For more information, see the accompanying paper at https://acrobat.adobe.com/id/urn:aaid:sc:VA6C2:9b41cc8e-0b8a-4b44-a3de-ddadc902a368
+  - For more information, see the accompanying paper [OSS](https://acrobat.adobe.com/id/urn:aaid:sc:VA6C2:9b41cc8e-0b8a-4b44-a3de-ddadc902a368)
 
 ## Formulation for discipline saddle programming
 
