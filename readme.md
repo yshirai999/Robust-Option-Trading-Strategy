@@ -12,6 +12,15 @@
   - The parameters $\theta,\alpha,\beta$ may be estimated based on performance of the resulting trading strategy
   - For more information, see the accompanying paper [OSS](https://acrobat.adobe.com/id/urn:aaid:sc:VA6C2:9b41cc8e-0b8a-4b44-a3de-ddadc902a368)
 
+## About the Author
+
+**Yoshihiro Shirai** is a Pearson Fellow at the University of Washington with expertise in applied mathematics, quantitative modeling, and macro strategy research.
+
+- 🔗 [LinkedIn](https://www.linkedin.com/in/yoshihiro-shirai/)
+- 📖 [Google Scholar](https://scholar.google.com/citations?user=...)
+- 💻 [GitHub](https://github.com/yshirai999)
+- 🌐 [Personal Website](https://www.yoshihiroshirai.com)
+
 ## Formulation for discipline saddle programming
 
 - To use the dsp extension of CVXPY we need to discretize the problem
